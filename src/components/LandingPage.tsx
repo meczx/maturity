@@ -330,7 +330,10 @@ function LandingPage() {
                 </div>
               </div>
               
-              <button className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white py-3 px-6 rounded-lg font-semibold transition-all duration-300 flex items-center justify-center">
+              <button
+                onClick={startPremiumAssessment}
+                className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white py-3 px-6 rounded-lg font-semibold transition-all duration-300 flex items-center justify-center"
+              >
                 Start Premium Assessment
                 <ChevronRight className="ml-2 w-5 h-5" />
               </button>
