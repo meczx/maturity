@@ -2,14 +2,17 @@ import React, { useState } from 'react';
 import { ChevronRight, Shield, Network, DollarSign, BarChart3, Settings, Upload, FileText, Rocket } from 'lucide-react';
 import Assessment from './AssessmentPage';
 import AssessmentQuestions from './AssessmentQuestions';
+import AssessmentScopePage from './AssessmentScopePage';
 import ChatbotWidget from './ChatbotWidget';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
 function LandingPage() {
   const [showAssessment, setShowAssessment] = useState(false);
+  const [showScopePage, setShowScopePage] = useState(false);
   const [showChatbot, setShowChatbot] = useState(false);
   const [assessmentScore, setAssessmentScore] = useState<number | null>(null);
+  const [selectedScope, setSelectedScope] = useState<'organization' | 'account' | null>(null);
   const { logout, sessionId } = useAuth();
   const navigate = useNavigate();
 
@@ -25,18 +28,39 @@ function LandingPage() {
   }, [showAssessment, sessionId]);
 
   const startAssessment = () => {
+    setShowScopePage(true);
+  };
+
+  const handleScopeSelection = (scope: 'organization' | 'account') => {
+    setSelectedScope(scope);
+    setShowScopePage(false);
     setShowAssessment(true);
+  };
+
+  const handleBackFromScope = () => {
+    setShowScopePage(false);
   };
 
   const closeAssessment = () => {
     setShowAssessment(false);
+    setShowScopePage(false);
   };
 
   const handleAssessmentComplete = (score: number) => {
     setAssessmentScore(score);
     setShowAssessment(false);
+    setShowScopePage(false);
     setShowChatbot(true);
   };
+
+  if (showScopePage) {
+    return (
+      <AssessmentScopePage 
+        onBack={handleBackFromScope}
+        onContinue={handleScopeSelection}
+      />
+    );
+  }
 
   if (showAssessment) {
     return (
