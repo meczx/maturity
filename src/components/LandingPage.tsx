@@ -94,22 +94,111 @@ function LandingPage() {
           <h2 className="text-3xl font-bold text-blue-400 mb-8 text-center">
             How It Works
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-gray-800 p-8 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 text-center">
-              <Upload className="w-12 h-12 text-blue-600 mx-auto mb-4" />
-              <strong className="text-lg block mb-2 text-white">Step 1:  Quick Check</strong>
-              <p className="text-gray-300">A fast, no-commitment assessment based on strategic cloud questions. </p>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {/* Step 1: Quick Check */}
+            <div className="bg-gray-800 p-8 rounded-xl shadow-lg border border-gray-700">
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="text-2xl font-bold text-white">Step 1: Quick Check</h3>
+                <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+                  Try Full Assessment
+                </button>
+              </div>
+              <h4 className="text-lg font-semibold text-blue-400 mb-4">Free Assessment</h4>
+              <p className="text-gray-300 mb-6">
+                A fast, no-commitment assessment based on strategic cloud questions.
+              </p>
+              
+              <div className="space-y-3 mb-8">
+                <div className="flex items-center text-gray-300">
+                  <div className="w-5 h-5 rounded-full bg-green-500 flex items-center justify-center mr-3">
+                    <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                  Free, no commitments
+                </div>
+                <div className="flex items-center text-gray-300">
+                  <div className="w-5 h-5 rounded-full bg-green-500 flex items-center justify-center mr-3">
+                    <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                  No access required
+                </div>
+                <div className="flex items-center text-gray-300">
+                  <div className="w-5 h-5 rounded-full bg-green-500 flex items-center justify-center mr-3">
+                    <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                  Instant results
+                </div>
+                <div className="flex items-center text-yellow-400">
+                  <div className="w-5 h-5 rounded-full bg-yellow-500 flex items-center justify-center mr-3">
+                    <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                  Limited depth — self-assessment only
+                </div>
+              </div>
+              
+              <button
+                onClick={startAssessment}
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-lg font-semibold transition-colors flex items-center justify-center"
+              >
+                Start your quick check Cloud Assessment
+                <ChevronRight className="ml-2 w-5 h-5" />
+              </button>
             </div>
-            <div className="bg-gray-800 p-8 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 text-center">
-              <FileText className="w-12 h-12 text-green-600 mx-auto mb-4" />
-              <strong className="text-lg block mb-2 text-white">Step 2: AI Powered Deep Scan</strong>
-              <p className="text-gray-300">
-Analyze your real infrastructure using your own IaC templates (Cloud Formation, Terraform, etc.)</p>
-            </div>
-            <div className="bg-gray-800 p-8 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 text-center">
-              <Rocket className="w-12 h-12 text-purple-600 mx-auto mb-4" />
-              <strong className="text-lg block mb-2 text-white">Step 3: AI Powered Total Audit</strong>
-              <p className="text-gray-300"> Full visibility into all provisioned cloud resources, even manual ones, via IAM access or guided script.</p>
+            
+            {/* Step 2 & 3: AI-Powered Assessment */}
+            <div className="bg-gray-800 p-8 rounded-xl shadow-lg border border-gray-700">
+              <h3 className="text-2xl font-bold text-white mb-6">Step 2 & 3: AI-Powered Assessment</h3>
+              <h4 className="text-lg font-semibold text-blue-400 mb-4">Premium Assessment</h4>
+              <p className="text-gray-300 mb-6">
+                Deep scan and total audit with AI-driven analysis of your real infrastructure.
+              </p>
+              
+              <div className="space-y-3 mb-8">
+                <div className="flex items-center text-gray-300">
+                  <div className="w-5 h-5 rounded-full bg-green-500 flex items-center justify-center mr-3">
+                    <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                  AI-driven analysis and insights
+                </div>
+                <div className="flex items-center text-gray-300">
+                  <div className="w-5 h-5 rounded-full bg-green-500 flex items-center justify-center mr-3">
+                    <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                  Comprehensive infrastructure assessment
+                </div>
+                <div className="flex items-center text-gray-300">
+                  <div className="w-5 h-5 rounded-full bg-green-500 flex items-center justify-center mr-3">
+                    <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                  Detailed recommendations
+                </div>
+                <div className="flex items-center text-gray-300">
+                  <div className="w-5 h-5 rounded-full bg-green-500 flex items-center justify-center mr-3">
+                    <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                  Interactive AI-powered chat
+                </div>
+              </div>
+              
+              <button className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white py-3 px-6 rounded-lg font-semibold transition-all duration-300 flex items-center justify-center">
+                Start Premium Assessment
+                <ChevronRight className="ml-2 w-5 h-5" />
+              </button>
             </div>
           </div>
         </div>
