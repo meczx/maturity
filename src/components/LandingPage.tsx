@@ -381,162 +381,127 @@ function LandingPage() {
           </p>
           <button
             onClick={startAssessment}
-            className="inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-300 transform hover:scale-105 hover:shadow-lg"
+            className="inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-300 transform hover:scale-105 hover:shadow-lg mr-4"
           >
-            Start your quick check Cloud Assessment to start step 1
+            Start Quick Assessment
+            <ChevronRight className="ml-2 w-5 h-5" />
+          </button>
+          <button
+            onClick={startPremiumAssessment}
+            className="inline-flex items-center bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-300 transform hover:scale-105 hover:shadow-lg"
+          >
+            Start Premium Assessment
             <ChevronRight className="ml-2 w-5 h-5" />
           </button>
         </div>
       </header>
       {/* How It Works Section */}
-      <section className="py-5 px-6">
+
+      {/* FAQ Section */}
+      <section className="py-16 px-6">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-3xl font-bold text-blue-400 mb-8 text-center">
-            How It Works
-          </h2>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {/* Step 1: Quick Check */}
-            <div className="bg-gray-800 p-8 rounded-xl shadow-lg border border-gray-700">
-              <div className="flex items-center justify-between mb-6">
-                <h3 className="text-2xl font-bold text-white">Step 1: Quick Check</h3>
-                <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
-                  Try Full Assessment
-                </button>
-              </div>
-              <h4 className="text-lg font-semibold text-blue-400 mb-4">Free Assessment</h4>
-              <p className="text-gray-300 mb-6">
-                A fast, no-commitment assessment based on strategic cloud questions.
-              </p>
-              
-              <div className="space-y-3 mb-8">
-                <div className="flex items-center text-gray-300">
-                  <div className="w-5 h-5 rounded-full bg-green-500 flex items-center justify-center mr-3">
-                    <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                    </svg>
-                  </div>
-                  Free, no commitments
+          <div className="text-center mb-12">
+            <div className="inline-flex items-center bg-blue-600 text-white px-4 py-2 rounded-full text-sm font-medium mb-6">
+              <span className="mr-2">❓</span>
+              Frequently Asked Questions
+            </div>
+            <h2 className="text-3xl font-bold text-white mb-4">
+              Everything You Need to Know
+            </h2>
+            <p className="text-lg text-gray-300">
+              Get answers to common questions about our cloud maturity assessments
+            </p>
+          </div>
+          
+          <div className="space-y-4">
+            <div className="bg-gray-800 rounded-lg border border-gray-700">
+              <button className="w-full text-left p-6 focus:outline-none">
+                <div className="flex justify-between items-center">
+                  <h3 className="text-lg font-semibold text-white">
+                    What is a Cloud Maturity Assessment?
+                  </h3>
+                  <ChevronRight className="h-5 w-5 text-gray-400 transform rotate-90" />
                 </div>
-                <div className="flex items-center text-gray-300">
-                  <div className="w-5 h-5 rounded-full bg-green-500 flex items-center justify-center mr-3">
-                    <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                    </svg>
-                  </div>
-                  No access required
-                </div>
-                <div className="flex items-center text-gray-300">
-                  <div className="w-5 h-5 rounded-full bg-green-500 flex items-center justify-center mr-3">
-                    <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                    </svg>
-                  </div>
-                  Instant results
-                </div>
-                <div className="flex items-center text-yellow-400">
-                  <div className="w-5 h-5 rounded-full bg-yellow-500 flex items-center justify-center mr-3">
-                    <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-                    </svg>
-                  </div>
-                  Limited depth — self-assessment only
-                </div>
-              </div>
-              
-              <button
-                onClick={startAssessment}
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-lg font-semibold transition-colors flex items-center justify-center"
-              >
-                Start your quick check Cloud Assessment
-                <ChevronRight className="ml-2 w-5 h-5" />
               </button>
             </div>
             
-            {/* Step 2 & 3: AI-Powered Assessment */}
-            <div className="bg-gray-800 p-8 rounded-xl shadow-lg border border-gray-700">
-              <h3 className="text-2xl font-bold text-white mb-6">Step 2 & 3: AI-Powered Assessment</h3>
-              <h4 className="text-lg font-semibold text-blue-400 mb-4">Premium Assessment</h4>
-              <p className="text-gray-300 mb-6">
-                Deep scan and total audit with AI-driven analysis of your real infrastructure.
-              </p>
-              
-              <div className="space-y-3 mb-8">
-                <div className="flex items-center text-gray-300">
-                  <div className="w-5 h-5 rounded-full bg-green-500 flex items-center justify-center mr-3">
-                    <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                    </svg>
-                  </div>
-                  AI-driven analysis and insights
+            <div className="bg-gray-800 rounded-lg border border-gray-700">
+              <button className="w-full text-left p-6 focus:outline-none">
+                <div className="flex justify-between items-center">
+                  <h3 className="text-lg font-semibold text-white">
+                    What's the difference between Quick Insight and AI-Powered Deep Assessment?
+                  </h3>
+                  <ChevronRight className="h-5 w-5 text-gray-400" />
                 </div>
-                <div className="flex items-center text-gray-300">
-                  <div className="w-5 h-5 rounded-full bg-green-500 flex items-center justify-center mr-3">
-                    <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                    </svg>
-                  </div>
-                  Comprehensive infrastructure assessment
+              </button>
+            </div>
+            
+            <div className="bg-gray-800 rounded-lg border border-gray-700">
+              <button className="w-full text-left p-6 focus:outline-none">
+                <div className="flex justify-between items-center">
+                  <h3 className="text-lg font-semibold text-white">
+                    Do I need to provide cloud credentials or access?
+                  </h3>
+                  <ChevronRight className="h-5 w-5 text-gray-400" />
                 </div>
-                <div className="flex items-center text-gray-300">
-                  <div className="w-5 h-5 rounded-full bg-green-500 flex items-center justify-center mr-3">
-                    <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                    </svg>
-                  </div>
-                  Detailed recommendations
+              </button>
+            </div>
+            
+            <div className="bg-gray-800 rounded-lg border border-gray-700">
+              <button className="w-full text-left p-6 focus:outline-none">
+                <div className="flex justify-between items-center">
+                  <h3 className="text-lg font-semibold text-white">
+                    What cloud providers do you support?
+                  </h3>
+                  <ChevronRight className="h-5 w-5 text-gray-400" />
                 </div>
-                <div className="flex items-center text-gray-300">
-                  <div className="w-5 h-5 rounded-full bg-green-500 flex items-center justify-center mr-3">
-                    <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                    </svg>
-                  </div>
-                  Interactive AI-powered chat
+              </button>
+            </div>
+            
+            <div className="bg-gray-800 rounded-lg border border-gray-700">
+              <button className="w-full text-left p-6 focus:outline-none">
+                <div className="flex justify-between items-center">
+                  <h3 className="text-lg font-semibold text-white">
+                    How long does each assessment take?
+                  </h3>
+                  <ChevronRight className="h-5 w-5 text-gray-400" />
                 </div>
-              </div>
-              
-              <button
-                onClick={startPremiumAssessment}
-                className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white py-3 px-6 rounded-lg font-semibold transition-all duration-300 flex items-center justify-center"
-              >
-                Start Premium Assessment
-                <ChevronRight className="ml-2 w-5 h-5" />
+              </button>
+            </div>
+            
+            <div className="bg-gray-800 rounded-lg border border-gray-700">
+              <button className="w-full text-left p-6 focus:outline-none">
+                <div className="flex justify-between items-center">
+                  <h3 className="text-lg font-semibold text-white">
+                    What files do I need for the Guided Upload assessment?
+                  </h3>
+                  <ChevronRight className="h-5 w-5 text-gray-400" />
+                </div>
+              </button>
+            </div>
+            
+            <div className="bg-gray-800 rounded-lg border border-gray-700">
+              <button className="w-full text-left p-6 focus:outline-none">
+                <div className="flex justify-between items-center">
+                  <h3 className="text-lg font-semibold text-white">
+                    Is my data secure and private?
+                  </h3>
+                  <ChevronRight className="h-5 w-5 text-gray-400" />
+                </div>
+              </button>
+            </div>
+            
+            <div className="bg-gray-800 rounded-lg border border-gray-700">
+              <button className="w-full text-left p-6 focus:outline-none">
+                <div className="flex justify-between items-center">
+                  <h3 className="text-lg font-semibold text-white">
+                    What kind of recommendations will I receive?
+                  </h3>
+                  <ChevronRight className="h-5 w-5 text-gray-400" />
+                </div>
               </button>
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* Why Assessment Section */}
-      <section className="py-16 px-6">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-3xl font-bold text-blue-400 mb-6">
-            Why Cloud Maturity Assessment is Essential
-          </h2>
-          <p className="text-lg mb-6 text-gray-300">
-            Without a clear view of your cloud maturity, you're exposed to:
-          </p>
-          <ul className="space-y-4 mb-8">
-            <li className="flex items-center text-lg text-gray-200">
-              <span className="text-2xl mr-4">💸</span>
-              <span>Uncontrolled costs</span>
-            </li>
-            <li className="flex items-center text-lg text-gray-200">
-              <span className="text-2xl mr-4">🔓</span>
-              <span>Security vulnerabilities</span>
-            </li>
-            <li className="flex items-center text-lg text-gray-200">
-              <span className="text-2xl mr-4">🧱</span>
-              <span>Fragile, non-resilient architectures</span>
-            </li>
-            <li className="flex items-center text-lg text-gray-200">
-              <span className="text-2xl mr-4">🤯</span>
-              <span>Manual chaos from inconsistent IaC practices</span>
-            </li>
-          </ul>
-          <p className="text-lg text-gray-300">
-            Our expert-designed AI powered cloud assessment can get you a clear picture of your current state — and insights on how to improve.
-          </p>
         </div>
       </section>
 
@@ -606,9 +571,16 @@ function LandingPage() {
           </p>
           <button
             onClick={startAssessment}
-            className="inline-flex items-center bg-white text-blue-600 hover:bg-gray-100 px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-300 transform hover:scale-105 hover:shadow-xl"
+            className="inline-flex items-center bg-white text-blue-600 hover:bg-gray-100 px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-300 transform hover:scale-105 hover:shadow-xl mr-4"
           >
-            Start your Cloud Assessment
+            Start Quick Assessment
+            <ChevronRight className="ml-2 w-5 h-5" />
+          </button>
+          <button
+            onClick={startPremiumAssessment}
+            className="inline-flex items-center bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-300 transform hover:scale-105 hover:shadow-xl"
+          >
+            Start Premium Assessment
             <ChevronRight className="ml-2 w-5 h-5" />
           </button>
         </div>
