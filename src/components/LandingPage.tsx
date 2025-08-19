@@ -505,29 +505,56 @@ function LandingPage() {
 
       
 
-      {/* CTA Section */}
-      <section id="start" className="py-16 px-6 bg-gradient-to-r from-blue-600 to-blue-700 text-white text-center">
-        <div className="max-w-3xl mx-auto">
-          <h2 className="text-3xl font-bold mb-4">
-            Ready to Start?
-          </h2>
-          <p className="text-xl mb-8 text-blue-100">
-            Begin your free maturity assessment now — no access keys required.
-          </p>
-          <button
-            onClick={startAssessment}
-            className="inline-flex items-center bg-white text-blue-600 hover:bg-gray-100 px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-300 transform hover:scale-105 hover:shadow-xl mr-4 mb-4 sm:mb-0"
-          >
-            Start Free Assessment
-            <ChevronRight className="ml-2 w-5 h-5" />
-          </button>
-          <button
-            onClick={startPremiumAssessment}
-            className="inline-flex items-center bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-300 transform hover:scale-105 hover:shadow-xl"
-          >
-            Start Premium Assessment
-            <ChevronRight className="ml-2 w-5 h-5" />
-          </button>
+      {/* FAQ Section */}
+      <section className="py-16 px-6 bg-gray-800">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-12">
+            <div className="inline-flex items-center bg-gray-700 text-blue-400 px-4 py-2 rounded-full text-sm font-medium mb-4">
+              <span className="mr-2">❓</span>
+              Frequently Asked Questions
+            </div>
+            <h2 className="text-3xl font-bold text-white mb-4">
+              Everything You Need to Know
+            </h2>
+            <p className="text-gray-300 text-lg">
+              Get answers to common questions about our cloud maturity assessments
+            </p>
+          </div>
+          
+          <div className="space-y-4">
+            <FAQItem 
+              question="What is a Cloud Maturity Assessment?"
+              answer="A Cloud Maturity Assessment evaluates your organization's cloud infrastructure, security, operations, and governance practices against industry best practices. It provides a comprehensive analysis of your current cloud maturity level and actionable recommendations for improvement."
+            />
+            <FAQItem 
+              question="What's the difference between Quick Insight and AI-Powered Deep Assessment?"
+              answer="Quick Insight is a free, questionnaire-based assessment that provides general recommendations. AI-Powered Deep Assessment analyzes your actual infrastructure files or connects to your cloud environment for detailed, specific recommendations based on your real setup."
+            />
+            <FAQItem 
+              question="Do I need to provide cloud credentials or access?"
+              answer="For the free Quick Insight assessment, no credentials are needed. For AI-Powered Guided Upload, you only need to upload configuration files. For Connected Assessment, we require read-only access to analyze your live environment."
+            />
+            <FAQItem 
+              question="What cloud providers do you support?"
+              answer="We support all major cloud providers including Amazon Web Services (AWS), Microsoft Azure, and Google Cloud Platform (GCP). Our assessments are tailored to each provider's specific services and best practices."
+            />
+            <FAQItem 
+              question="How long does each assessment take?"
+              answer="Quick Insight takes 5-10 minutes. Guided Upload takes 15-30 minutes depending on file preparation. Connected Assessment takes 20-45 minutes including setup and analysis time."
+            />
+            <FAQItem 
+              question="What files do I need for the Guided Upload assessment?"
+              answer="You can upload CloudFormation templates, Terraform state files, Azure Resource Manager templates, or infrastructure configuration files in JSON/YAML format. We also provide scripts to help export your current infrastructure state."
+            />
+            <FAQItem 
+              question="Is my data secure and private?"
+              answer="Yes, absolutely. All data is encrypted in transit and at rest. We follow SOC 2 compliance standards, never store sensitive credentials, and you can delete your data at any time. We only analyze what's necessary for the assessment."
+            />
+            <FAQItem 
+              question="What kind of recommendations will I receive?"
+              answer="You'll receive actionable recommendations across security, cost optimization, performance, reliability, and operational excellence. This includes specific configuration changes, architectural improvements, and best practice implementations."
+            />
+          </div>
         </div>
       </section>
     </div>
