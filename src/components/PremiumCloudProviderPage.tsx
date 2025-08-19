@@ -47,22 +47,22 @@ export default function PremiumCloudProviderPage({ onBack, onContinue, assessmen
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-900 text-white">
       <div className="max-w-4xl mx-auto px-6 py-12">
         {/* Header */}
         <div className="mb-8">
           <button
             onClick={onBack}
-            className="flex items-center text-gray-600 hover:text-gray-800 mb-6 transition-colors"
+            className="flex items-center text-gray-300 hover:text-white mb-6 transition-colors"
           >
             <ArrowLeft className="h-5 w-5 mr-2" />
             Back
           </button>
           
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
+          <h1 className="text-3xl font-bold text-white mb-2">
             {getTitle()}
           </h1>
-          <p className="text-gray-600 text-lg">
+          <p className="text-gray-300 text-lg">
             Select your cloud provider
           </p>
         </div>
@@ -72,10 +72,10 @@ export default function PremiumCloudProviderPage({ onBack, onContinue, assessmen
           {providers.map((provider) => (
             <div
               key={provider.id}
-              className={`bg-white border-2 rounded-xl p-6 cursor-pointer transition-all duration-200 ${
+              className={`bg-gray-800 border-2 rounded-xl p-6 cursor-pointer transition-all duration-200 ${
                 selectedProvider === provider.id
-                  ? 'border-blue-500 shadow-lg'
-                  : 'border-gray-200 hover:border-gray-300 hover:shadow-md'
+                  ? 'border-blue-500 bg-gray-750'
+                  : 'border-gray-700 hover:border-gray-600'
               }`}
               onClick={() => setSelectedProvider(provider.id)}
             >
@@ -85,10 +85,10 @@ export default function PremiumCloudProviderPage({ onBack, onContinue, assessmen
                     <Cloud className="h-6 w-6 text-white" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-bold text-gray-900 mb-1">
+                    <h3 className="text-xl font-bold text-white mb-1">
                       {provider.name}
                     </h3>
-                    <p className="text-gray-600">
+                    <p className="text-gray-400">
                       {provider.description}
                     </p>
                   </div>
@@ -96,7 +96,7 @@ export default function PremiumCloudProviderPage({ onBack, onContinue, assessmen
                 <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${
                   selectedProvider === provider.id
                     ? 'border-blue-500 bg-blue-500'
-                    : 'border-gray-300'
+                    : 'border-gray-400'
                 }`}>
                   {selectedProvider === provider.id && (
                     <div className="w-3 h-3 bg-white rounded-full"></div>
@@ -111,7 +111,7 @@ export default function PremiumCloudProviderPage({ onBack, onContinue, assessmen
         <div className="flex justify-between items-center">
           <button
             onClick={onBack}
-            className="flex items-center text-gray-600 hover:text-gray-800 transition-colors"
+            className="flex items-center text-gray-300 hover:text-white transition-colors"
           >
             <ArrowLeft className="h-5 w-5 mr-2" />
             Back
@@ -122,8 +122,8 @@ export default function PremiumCloudProviderPage({ onBack, onContinue, assessmen
             disabled={!selectedProvider}
             className={`px-8 py-3 rounded-lg font-semibold transition-all duration-200 flex items-center ${
               selectedProvider
-                ? 'bg-blue-600 hover:bg-blue-700 text-white'
-                : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                ? 'bg-gray-600 hover:bg-gray-500 text-white'
+                : 'bg-gray-700 text-gray-400 cursor-not-allowed'
             }`}
           >
             Continue

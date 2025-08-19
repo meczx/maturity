@@ -12,6 +12,7 @@ import IaCToolConfigPage from './IaCToolConfigPage';
 import InfrastructureExportPage from './InfrastructureExportPage';
 import FileUploadPage from './FileUploadPage';
 import ChatbotWidget from './ChatbotWidget';
+import ConnectedAssessmentPage from './ConnectedAssessmentPage';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
@@ -119,6 +120,31 @@ function LandingPage() {
     setShowPremiumAssessment(true);
   };
 
+  const handlePremiumAccountInfoSubmit = (info: { accountId: string; provider: string }) => {
+    setAccountInfo(info);
+    setShowPremiumAccountInfo(false);
+    if (premiumAssessmentType === 'guided') {
+      setShowResourceManagement(true);
+    } else {
+      setShowConnectedAssessment(true);
+    }
+  };
+
+  const handleBackFromPremiumAccountInfo = () => {
+    setShowPremiumAccountInfo(false);
+    setShowPremiumProviderPage(true);
+  };
+
+  const handleConnectedAssessmentStart = () => {
+    setShowConnectedAssessment(false);
+    setShowChatbot(true);
+  };
+
+  const handleBackFromConnectedAssessment = () => {
+    setShowConnectedAssessment(false);
+    setShowPremiumAccountInfo(true);
+  };
+
   const handleResourceManagementSelection = (type: 'automated' | 'manual' | 'hybrid') => {
     setManagementType(type);
     setShowResourceManagement(false);
@@ -132,7 +158,7 @@ function LandingPage() {
 
   const handleBackFromResourceManagement = () => {
     setShowResourceManagement(false);
-    setShowPremiumProviderPage(true);
+    setShowPremiumAccountInfo(true);
   };
 
   const handleIaCToolConfigSelection = (config: { toolType: 'single' | 'multiple'; selectedTool?: string }) => {
@@ -185,6 +211,8 @@ function LandingPage() {
     setShowIaCToolConfig(false);
     setShowInfrastructureExport(false);
     setShowFileUpload(false);
+    setShowPremiumAccountInfo(false);
+    setShowConnectedAssessment(false);
   };
 
   const handleAssessmentComplete = (score: number) => {
@@ -199,6 +227,8 @@ function LandingPage() {
     setShowIaCToolConfig(false);
     setShowInfrastructureExport(false);
     setShowFileUpload(false);
+    setShowPremiumAccountInfo(false);
+    setShowConnectedAssessment(false);
     setShowChatbot(true);
   };
 
@@ -245,6 +275,27 @@ function LandingPage() {
         onBack={handleBackFromPremiumProvider}
         onContinue={handlePremiumProviderSelection}
         assessmentType={premiumAssessmentType}
+      />
+    );
+  }
+
+  if (showPremiumAccountInfo && selectedProvider) {
+    return (
+      <AccountInfoPage 
+        onBack={handleBackFromPremiumAccountInfo}
+        onContinue={handlePremiumAccountInfoSubmit}
+        selectedProvider={selectedProvider}
+      />
+    );
+  }
+
+  if (showConnectedAssessment && selectedProvider && accountInfo) {
+    return (
+      <ConnectedAssessmentPage 
+        onBack={handleBackFromConnectedAssessment}
+        onStartAssessment={handleConnectedAssessmentStart}
+        selectedProvider={selectedProvider}
+        accountInfo={accountInfo}
       />
     );
   }
