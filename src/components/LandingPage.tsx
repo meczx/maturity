@@ -109,12 +109,7 @@ function LandingPage() {
   const handlePremiumProviderSelection = (provider: string) => {
     setSelectedProvider(provider);
     setShowPremiumProviderPage(false);
-    if (premiumAssessmentType === 'guided') {
-      setShowResourceManagement(true);
-    } else {
-      // For connected assessment, show placeholder for now
-      alert(`Selected ${provider} for ${premiumAssessmentType} assessment`);
-    }
+    setShowPremiumAccountInfo(true);
   };
 
   const handleBackFromPremiumProvider = () => {

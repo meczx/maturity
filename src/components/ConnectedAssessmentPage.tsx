@@ -48,7 +48,7 @@ export default function ConnectedAssessmentPage({ onBack, onStartAssessment, sel
 
         {/* State File Generation Section */}
         <div className="mb-8">
-          <div className="bg-blue-900 bg-opacity-30 border border-blue-700 rounded-lg p-6 mb-8">
+          <div className="bg-blue-900 bg-opacity-20 border border-blue-700 rounded-lg p-6 mb-8">
             <div className="flex items-start">
               <FileText className="h-6 w-6 text-blue-400 mr-3 mt-1" />
               <div>
@@ -109,7 +109,7 @@ export default function ConnectedAssessmentPage({ onBack, onStartAssessment, sel
           
           <button
             onClick={onStartAssessment}
-            className="px-8 py-3 bg-gray-600 hover:bg-gray-500 text-white rounded-lg font-semibold transition-all duration-200 flex items-center"
+            className="px-8 py-3 bg-gray-700 hover:bg-gray-600 text-white rounded-lg font-semibold transition-all duration-200 flex items-center"
           >
             Upload File
             <ArrowLeft className="h-5 w-5 ml-2 rotate-180" />
