@@ -35,6 +35,8 @@ function LandingPage() {
   const [showFileUpload, setShowFileUpload] = useState(false);
   const [managementType, setManagementType] = useState<'automated' | 'manual' | 'hybrid' | null>(null);
   const [iacConfig, setIaCConfig] = useState<{ toolType: 'single' | 'multiple'; selectedTool?: string } | null>(null);
+  const [showPremiumAccountInfo, setShowPremiumAccountInfo] = useState(false);
+  const [showConnectedAssessment, setShowConnectedAssessment] = useState(false);
   const { logout, sessionId } = useAuth();
   const navigate = useNavigate();
 
