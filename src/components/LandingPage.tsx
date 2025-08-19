@@ -3,6 +3,8 @@ import { ChevronRight, Shield, Network, DollarSign, BarChart3, Settings, Upload,
 import Assessment from './AssessmentPage';
 import AssessmentQuestions from './AssessmentQuestions';
 import AssessmentScopePage from './AssessmentScopePage';
+import CloudProviderSelectionPage from './CloudProviderSelectionPage';
+import AccountInfoPage from './AccountInfoPage';
 import ChatbotWidget from './ChatbotWidget';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
@@ -10,9 +12,13 @@ import { useNavigate } from 'react-router-dom';
 function LandingPage() {
   const [showAssessment, setShowAssessment] = useState(false);
   const [showScopePage, setShowScopePage] = useState(false);
+  const [showProviderPage, setShowProviderPage] = useState(false);
+  const [showAccountInfoPage, setShowAccountInfoPage] = useState(false);
   const [showChatbot, setShowChatbot] = useState(false);
   const [assessmentScore, setAssessmentScore] = useState<number | null>(null);
   const [selectedScope, setSelectedScope] = useState<'organization' | 'account' | null>(null);
+  const [selectedProvider, setSelectedProvider] = useState<string | null>(null);
+  const [accountInfo, setAccountInfo] = useState<{ accountId: string; provider: string } | null>(null);
   const { logout, sessionId } = useAuth();
   const navigate = useNavigate();
 
@@ -34,22 +40,53 @@ function LandingPage() {
   const handleScopeSelection = (scope: 'organization' | 'account') => {
     setSelectedScope(scope);
     setShowScopePage(false);
-    setShowAssessment(true);
+    
+    if (scope === 'organization') {
+      setShowAssessment(true);
+    } else {
+      setShowProviderPage(true);
+    }
   };
 
   const handleBackFromScope = () => {
     setShowScopePage(false);
   };
 
+  const handleProviderSelection = (provider: string) => {
+    setSelectedProvider(provider);
+    setShowProviderPage(false);
+    setShowAccountInfoPage(true);
+  };
+
+  const handleBackFromProvider = () => {
+    setShowProviderPage(false);
+    setShowScopePage(true);
+  };
+
+  const handleAccountInfoSubmit = (info: { accountId: string; provider: string }) => {
+    setAccountInfo(info);
+    setShowAccountInfoPage(false);
+    setShowAssessment(true);
+  };
+
+  const handleBackFromAccountInfo = () => {
+    setShowAccountInfoPage(false);
+    setShowProviderPage(true);
+  };
+
   const closeAssessment = () => {
     setShowAssessment(false);
     setShowScopePage(false);
+    setShowProviderPage(false);
+    setShowAccountInfoPage(false);
   };
 
   const handleAssessmentComplete = (score: number) => {
     setAssessmentScore(score);
     setShowAssessment(false);
     setShowScopePage(false);
+    setShowProviderPage(false);
+    setShowAccountInfoPage(false);
     setShowChatbot(true);
   };
 
@@ -58,6 +95,25 @@ function LandingPage() {
       <AssessmentScopePage 
         onBack={handleBackFromScope}
         onContinue={handleScopeSelection}
+      />
+    );
+  }
+
+  if (showProviderPage) {
+    return (
+      <CloudProviderSelectionPage 
+        onBack={handleBackFromProvider}
+        onContinue={handleProviderSelection}
+      />
+    );
+  }
+
+  if (showAccountInfoPage && selectedProvider) {
+    return (
+      <AccountInfoPage 
+        onBack={handleBackFromAccountInfo}
+        onContinue={handleAccountInfoSubmit}
+        selectedProvider={selectedProvider}
       />
     );
   }
