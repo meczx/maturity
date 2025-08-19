@@ -30,12 +30,6 @@ export default function AccountInfoPage({ onBack, onContinue, selectedProvider }
           placeholder: 'Enter your gcp project id',
           description: 'Your Google Cloud project identifier'
         };
-      case 'multi-cloud':
-        return {
-          label: 'Primary Account ID',
-          placeholder: 'Enter your primary account id',
-          description: 'Your primary cloud account identifier'
-        };
       default:
         return {
           label: 'Account ID',

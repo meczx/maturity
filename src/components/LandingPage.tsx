@@ -5,6 +5,8 @@ import AssessmentQuestions from './AssessmentQuestions';
 import AssessmentScopePage from './AssessmentScopePage';
 import CloudProviderSelectionPage from './CloudProviderSelectionPage';
 import AccountInfoPage from './AccountInfoPage';
+import PremiumAssessmentPage from './PremiumAssessmentPage';
+import PremiumCloudProviderPage from './PremiumCloudProviderPage';
 import ChatbotWidget from './ChatbotWidget';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
@@ -14,11 +16,14 @@ function LandingPage() {
   const [showScopePage, setShowScopePage] = useState(false);
   const [showProviderPage, setShowProviderPage] = useState(false);
   const [showAccountInfoPage, setShowAccountInfoPage] = useState(false);
+  const [showPremiumAssessment, setShowPremiumAssessment] = useState(false);
+  const [showPremiumProviderPage, setShowPremiumProviderPage] = useState(false);
   const [showChatbot, setShowChatbot] = useState(false);
   const [assessmentScore, setAssessmentScore] = useState<number | null>(null);
   const [selectedScope, setSelectedScope] = useState<'organization' | 'account' | null>(null);
   const [selectedProvider, setSelectedProvider] = useState<string | null>(null);
   const [accountInfo, setAccountInfo] = useState<{ accountId: string; provider: string } | null>(null);
+  const [premiumAssessmentType, setPremiumAssessmentType] = useState<'guided' | 'connected' | null>(null);
   const { logout, sessionId } = useAuth();
   const navigate = useNavigate();
 
@@ -35,6 +40,10 @@ function LandingPage() {
 
   const startAssessment = () => {
     setShowScopePage(true);
+  };
+
+  const startPremiumAssessment = () => {
+    setShowPremiumAssessment(true);
   };
 
   const handleScopeSelection = (scope: 'organization' | 'account') => {
@@ -74,11 +83,36 @@ function LandingPage() {
     setShowProviderPage(true);
   };
 
+  const handlePremiumAssessmentSelection = (type: 'guided' | 'connected') => {
+    setPremiumAssessmentType(type);
+    setShowPremiumAssessment(false);
+    setShowPremiumProviderPage(true);
+  };
+
+  const handleBackFromPremiumAssessment = () => {
+    setShowPremiumAssessment(false);
+  };
+
+  const handlePremiumProviderSelection = (provider: string) => {
+    setSelectedProvider(provider);
+    setShowPremiumProviderPage(false);
+    // Here you would continue to the next step (account info or file upload)
+    // For now, let's just show a placeholder
+    alert(`Selected ${provider} for ${premiumAssessmentType} assessment`);
+  };
+
+  const handleBackFromPremiumProvider = () => {
+    setShowPremiumProviderPage(false);
+    setShowPremiumAssessment(true);
+  };
+
   const closeAssessment = () => {
     setShowAssessment(false);
     setShowScopePage(false);
     setShowProviderPage(false);
     setShowAccountInfoPage(false);
+    setShowPremiumAssessment(false);
+    setShowPremiumProviderPage(false);
   };
 
   const handleAssessmentComplete = (score: number) => {
@@ -87,6 +121,8 @@ function LandingPage() {
     setShowScopePage(false);
     setShowProviderPage(false);
     setShowAccountInfoPage(false);
+    setShowPremiumAssessment(false);
+    setShowPremiumProviderPage(false);
     setShowChatbot(true);
   };
 
@@ -114,6 +150,25 @@ function LandingPage() {
         onBack={handleBackFromAccountInfo}
         onContinue={handleAccountInfoSubmit}
         selectedProvider={selectedProvider}
+      />
+    );
+  }
+
+  if (showPremiumAssessment) {
+    return (
+      <PremiumAssessmentPage 
+        onBack={handleBackFromPremiumAssessment}
+        onContinue={handlePremiumAssessmentSelection}
+      />
+    );
+  }
+
+  if (showPremiumProviderPage && premiumAssessmentType) {
+    return (
+      <PremiumCloudProviderPage 
+        onBack={handleBackFromPremiumProvider}
+        onContinue={handlePremiumProviderSelection}
+        assessmentType={premiumAssessmentType}
       />
     );
   }
