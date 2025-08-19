@@ -7,6 +7,10 @@ import CloudProviderSelectionPage from './CloudProviderSelectionPage';
 import AccountInfoPage from './AccountInfoPage';
 import PremiumAssessmentPage from './PremiumAssessmentPage';
 import PremiumCloudProviderPage from './PremiumCloudProviderPage';
+import ResourceManagementPage from './ResourceManagementPage';
+import IaCToolConfigPage from './IaCToolConfigPage';
+import InfrastructureExportPage from './InfrastructureExportPage';
+import FileUploadPage from './FileUploadPage';
 import ChatbotWidget from './ChatbotWidget';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
@@ -24,6 +28,12 @@ function LandingPage() {
   const [selectedProvider, setSelectedProvider] = useState<string | null>(null);
   const [accountInfo, setAccountInfo] = useState<{ accountId: string; provider: string } | null>(null);
   const [premiumAssessmentType, setPremiumAssessmentType] = useState<'guided' | 'connected' | null>(null);
+  const [showResourceManagement, setShowResourceManagement] = useState(false);
+  const [showIaCToolConfig, setShowIaCToolConfig] = useState(false);
+  const [showInfrastructureExport, setShowInfrastructureExport] = useState(false);
+  const [showFileUpload, setShowFileUpload] = useState(false);
+  const [managementType, setManagementType] = useState<'automated' | 'manual' | 'hybrid' | null>(null);
+  const [iacConfig, setIaCConfig] = useState<{ toolType: 'single' | 'multiple'; selectedTool?: string } | null>(null);
   const { logout, sessionId } = useAuth();
   const navigate = useNavigate();
 
@@ -96,14 +106,72 @@ function LandingPage() {
   const handlePremiumProviderSelection = (provider: string) => {
     setSelectedProvider(provider);
     setShowPremiumProviderPage(false);
-    // Here you would continue to the next step (account info or file upload)
-    // For now, let's just show a placeholder
-    alert(`Selected ${provider} for ${premiumAssessmentType} assessment`);
+    if (premiumAssessmentType === 'guided') {
+      setShowResourceManagement(true);
+    } else {
+      // For connected assessment, show placeholder for now
+      alert(`Selected ${provider} for ${premiumAssessmentType} assessment`);
+    }
   };
 
   const handleBackFromPremiumProvider = () => {
     setShowPremiumProviderPage(false);
     setShowPremiumAssessment(true);
+  };
+
+  const handleResourceManagementSelection = (type: 'automated' | 'manual' | 'hybrid') => {
+    setManagementType(type);
+    setShowResourceManagement(false);
+    if (type === 'automated') {
+      setShowIaCToolConfig(true);
+    } else {
+      // For manual or hybrid, skip to file upload
+      setShowFileUpload(true);
+    }
+  };
+
+  const handleBackFromResourceManagement = () => {
+    setShowResourceManagement(false);
+    setShowPremiumProviderPage(true);
+  };
+
+  const handleIaCToolConfigSelection = (config: { toolType: 'single' | 'multiple'; selectedTool?: string }) => {
+    setIaCConfig(config);
+    setShowIaCToolConfig(false);
+    if (config.toolType === 'single' && config.selectedTool) {
+      setShowInfrastructureExport(true);
+    } else {
+      setShowFileUpload(true);
+    }
+  };
+
+  const handleBackFromIaCToolConfig = () => {
+    setShowIaCToolConfig(false);
+    setShowResourceManagement(true);
+  };
+
+  const handleInfrastructureExportContinue = () => {
+    setShowInfrastructureExport(false);
+    setShowFileUpload(true);
+  };
+
+  const handleBackFromInfrastructureExport = () => {
+    setShowInfrastructureExport(false);
+    setShowIaCToolConfig(true);
+  };
+
+  const handleFileUploadStartAssessment = () => {
+    setShowFileUpload(false);
+    setShowChatbot(true);
+  };
+
+  const handleBackFromFileUpload = () => {
+    setShowFileUpload(false);
+    if (showInfrastructureExport) {
+      setShowInfrastructureExport(true);
+    } else {
+      setShowIaCToolConfig(true);
+    }
   };
 
   const closeAssessment = () => {
@@ -113,6 +181,10 @@ function LandingPage() {
     setShowAccountInfoPage(false);
     setShowPremiumAssessment(false);
     setShowPremiumProviderPage(false);
+    setShowResourceManagement(false);
+    setShowIaCToolConfig(false);
+    setShowInfrastructureExport(false);
+    setShowFileUpload(false);
   };
 
   const handleAssessmentComplete = (score: number) => {
@@ -123,6 +195,10 @@ function LandingPage() {
     setShowAccountInfoPage(false);
     setShowPremiumAssessment(false);
     setShowPremiumProviderPage(false);
+    setShowResourceManagement(false);
+    setShowIaCToolConfig(false);
+    setShowInfrastructureExport(false);
+    setShowFileUpload(false);
     setShowChatbot(true);
   };
 
@@ -169,6 +245,47 @@ function LandingPage() {
         onBack={handleBackFromPremiumProvider}
         onContinue={handlePremiumProviderSelection}
         assessmentType={premiumAssessmentType}
+      />
+    );
+  }
+
+  if (showResourceManagement && selectedProvider) {
+    return (
+      <ResourceManagementPage 
+        onBack={handleBackFromResourceManagement}
+        onContinue={handleResourceManagementSelection}
+        selectedProvider={selectedProvider}
+      />
+    );
+  }
+
+  if (showIaCToolConfig && selectedProvider) {
+    return (
+      <IaCToolConfigPage 
+        onBack={handleBackFromIaCToolConfig}
+        onContinue={handleIaCToolConfigSelection}
+        selectedProvider={selectedProvider}
+      />
+    );
+  }
+
+  if (showInfrastructureExport && selectedProvider && iacConfig?.selectedTool) {
+    return (
+      <InfrastructureExportPage 
+        onBack={handleBackFromInfrastructureExport}
+        onContinue={handleInfrastructureExportContinue}
+        selectedProvider={selectedProvider}
+        selectedTool={iacConfig.selectedTool}
+      />
+    );
+  }
+
+  if (showFileUpload && selectedProvider) {
+    return (
+      <FileUploadPage 
+        onBack={handleBackFromFileUpload}
+        onStartAssessment={handleFileUploadStartAssessment}
+        selectedProvider={selectedProvider}
       />
     );
   }
