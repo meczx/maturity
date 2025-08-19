@@ -205,19 +205,11 @@ echo "Resource discovery complete! Upload the generated JSON files."`;
           </div>
         </div>
 
-        {/* Navigation */}
-        <div className="flex justify-between items-center">
-          <button
-            onClick={onBack}
-            className="flex items-center text-gray-600 hover:text-gray-800 transition-colors"
-          >
-            <ArrowLeft className="h-5 w-5 mr-2" />
-            Back
-          </button>
-          
+        {/* Continue Button */}
+        <div className="text-center">
           <button
             onClick={onContinue}
-            className="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition-all duration-200 flex items-center"
+            className="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition-all duration-200 flex items-center mx-auto"
           >
             Continue to Assessment
             <ArrowLeft className="h-5 w-5 ml-2 rotate-180" />

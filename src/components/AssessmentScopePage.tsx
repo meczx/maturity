@@ -9,12 +9,6 @@ interface AssessmentScopePageProps {
 export default function AssessmentScopePage({ onBack, onContinue }: AssessmentScopePageProps) {
   const [selectedScope, setSelectedScope] = useState<'organization' | 'account' | null>(null);
 
-  const handleContinue = () => {
-    if (selectedScope) {
-      onContinue(selectedScope);
-    }
-  };
-
   return (
     <div className="min-h-screen bg-gray-900 text-white">
       <div className="max-w-4xl mx-auto px-6 py-12">
@@ -44,12 +38,12 @@ export default function AssessmentScopePage({ onBack, onContinue }: AssessmentSc
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-12">
           {/* Organization-wide Assessment */}
           <div
+            onClick={() => onContinue('organization')}
             className={`bg-gray-800 border-2 rounded-xl p-6 cursor-pointer transition-all duration-200 ${
               selectedScope === 'organization'
                 ? 'border-blue-500 bg-gray-750'
                 : 'border-gray-700 hover:border-gray-600'
             }`}
-            onClick={() => setSelectedScope('organization')}
           >
             <div className="flex items-start justify-between mb-4">
               <div className="flex items-center">
@@ -59,15 +53,6 @@ export default function AssessmentScopePage({ onBack, onContinue }: AssessmentSc
                 <h3 className="text-xl font-bold text-white">
                   Organization-wide Assessment
                 </h3>
-              </div>
-              <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${
-                selectedScope === 'organization'
-                  ? 'border-blue-500 bg-blue-500'
-                  : 'border-gray-400'
-              }`}>
-                {selectedScope === 'organization' && (
-                  <div className="w-3 h-3 bg-white rounded-full"></div>
-                )}
               </div>
             </div>
             
@@ -97,12 +82,12 @@ export default function AssessmentScopePage({ onBack, onContinue }: AssessmentSc
 
           {/* Account-specific Assessment */}
           <div
+            onClick={() => onContinue('account')}
             className={`bg-gray-800 border-2 rounded-xl p-6 cursor-pointer transition-all duration-200 ${
               selectedScope === 'account'
                 ? 'border-green-500 bg-gray-750'
                 : 'border-gray-700 hover:border-gray-600'
             }`}
-            onClick={() => setSelectedScope('account')}
           >
             <div className="flex items-start justify-between mb-4">
               <div className="flex items-center">
@@ -112,15 +97,6 @@ export default function AssessmentScopePage({ onBack, onContinue }: AssessmentSc
                 <h3 className="text-xl font-bold text-white">
                   Account-specific Assessment
                 </h3>
-              </div>
-              <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${
-                selectedScope === 'account'
-                  ? 'border-green-500 bg-green-500'
-                  : 'border-gray-400'
-              }`}>
-                {selectedScope === 'account' && (
-                  <div className="w-3 h-3 bg-white rounded-full"></div>
-                )}
               </div>
             </div>
             
@@ -147,30 +123,6 @@ export default function AssessmentScopePage({ onBack, onContinue }: AssessmentSc
               </li>
             </ul>
           </div>
-        </div>
-
-        {/* Navigation */}
-        <div className="flex justify-between items-center">
-          <button
-            onClick={onBack}
-            className="flex items-center text-gray-300 hover:text-white transition-colors"
-          >
-            <ArrowLeft className="h-5 w-5 mr-2" />
-            Back
-          </button>
-          
-          <button
-            onClick={handleContinue}
-            disabled={!selectedScope}
-            className={`px-8 py-3 rounded-lg font-semibold transition-all duration-200 flex items-center ${
-              selectedScope
-                ? 'bg-gray-600 hover:bg-gray-500 text-white'
-                : 'bg-gray-700 text-gray-400 cursor-not-allowed'
-            }`}
-          >
-            Continue
-            <ArrowLeft className="h-5 w-5 ml-2 rotate-180" />
-          </button>
         </div>
       </div>
     </div>

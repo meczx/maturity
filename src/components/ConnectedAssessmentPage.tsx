@@ -97,19 +97,11 @@ export default function ConnectedAssessmentPage({ onBack, onStartAssessment, sel
           </div>
         </div>
 
-        {/* Navigation */}
-        <div className="flex justify-between items-center">
-          <button
-            onClick={onBack}
-            className="flex items-center text-gray-300 hover:text-white transition-colors"
-          >
-            <ArrowLeft className="h-5 w-5 mr-2" />
-            Back
-          </button>
-          
+        {/* Upload File Button */}
+        <div className="text-center">
           <button
             onClick={onStartAssessment}
-            className="px-8 py-3 bg-gray-700 hover:bg-gray-600 text-white rounded-lg font-semibold transition-all duration-200 flex items-center"
+            className="px-8 py-3 bg-gray-700 hover:bg-gray-600 text-white rounded-lg font-semibold transition-all duration-200 flex items-center mx-auto"
           >
             Upload File
             <ArrowLeft className="h-5 w-5 ml-2 rotate-180" />

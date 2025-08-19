@@ -41,15 +41,9 @@ export default function AccountInfoPage({ onBack, onContinue, selectedProvider }
 
   const providerInfo = getProviderInfo();
 
-  const handleContinue = () => {
-    if (accountId.trim()) {
-      onContinue({ accountId: accountId.trim(), provider: selectedProvider });
-    }
-  };
-
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && accountId.trim()) {
-      handleContinue();
+      onContinue({ accountId: accountId.trim(), provider: selectedProvider });
     }
   };
 
@@ -109,22 +103,11 @@ export default function AccountInfoPage({ onBack, onContinue, selectedProvider }
           <p className="text-gray-400 text-sm mt-2">
             {providerInfo.description}
           </p>
-        </div>
-
-        {/* Navigation */}
-        <div className="flex justify-between items-center">
-          <button
-            onClick={onBack}
-            className="flex items-center text-gray-300 hover:text-white transition-colors"
-          >
-            <ArrowLeft className="h-5 w-5 mr-2" />
-            Back
-          </button>
           
           <button
-            onClick={handleContinue}
+            onClick={() => accountId.trim() && onContinue({ accountId: accountId.trim(), provider: selectedProvider })}
             disabled={!accountId.trim()}
-            className={`px-8 py-3 rounded-lg font-semibold transition-all duration-200 flex items-center ${
+            className={`w-full mt-6 px-8 py-3 rounded-lg font-semibold transition-all duration-200 flex items-center justify-center ${
               accountId.trim()
                 ? 'bg-gray-600 hover:bg-gray-500 text-white'
                 : 'bg-gray-700 text-gray-400 cursor-not-allowed'

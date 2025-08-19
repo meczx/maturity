@@ -40,13 +40,12 @@ export default function PremiumAssessmentPage({ onBack, onContinue }: PremiumAss
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
           {/* AI-Powered Guided Upload */}
           <div
-            className={`bg-white border-2 rounded-xl p-8 cursor-pointer transition-all duration-200 ${
+            onClick={() => onContinue('guided')}
+            className={`bg-gray-800 border-2 rounded-xl p-8 cursor-pointer transition-all duration-200 ${
               selectedType === 'guided'
-                ? 'border-blue-500 bg-gray-750'
+                ? 'border-blue-500 bg-gray-700'
                 : 'border-gray-700 hover:border-gray-600'
             }`}
-            style={{ backgroundColor: selectedType === 'guided' ? '#374151' : '#1f2937' }}
-            onClick={() => setSelectedType('guided')}
           >
             <div className="flex items-start justify-between mb-6">
               <div className="flex items-center">
@@ -64,37 +63,36 @@ export default function PremiumAssessmentPage({ onBack, onContinue }: PremiumAss
               provide detailed insights through an interactive assessment.
             </p>
             
-            <ul className="space-y-3 mb-8">
-              <li className="flex items-center text-gray-300">
-                <div className="w-5 h-5 rounded-full bg-green-500 flex items-center justify-center mr-3">
-                  <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                  </svg>
-                </div>
-                File-based analysis
-              </li>
-              <li className="flex items-center text-gray-300">
-                <div className="w-5 h-5 rounded-full bg-green-500 flex items-center justify-center mr-3">
-                  <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                  </svg>
-                </div>
-                No direct cloud access required
-              </li>
-              <li className="flex items-center text-gray-300">
-                <div className="w-5 h-5 rounded-full bg-green-500 flex items-center justify-center mr-3">
-                  <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                  </svg>
-                </div>
-                Interactive AI-powered chat
-              </li>
-            </ul>
+            <div className="flex-1">
+              <ul className="space-y-3 mb-8">
+                <li className="flex items-center text-gray-300">
+                  <div className="w-5 h-5 rounded-full bg-green-500 flex items-center justify-center mr-3">
+                    <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                  File-based analysis
+                </li>
+                <li className="flex items-center text-gray-300">
+                  <div className="w-5 h-5 rounded-full bg-green-500 flex items-center justify-center mr-3">
+                    <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                  No direct cloud access required
+                </li>
+                <li className="flex items-center text-gray-300">
+                  <div className="w-5 h-5 rounded-full bg-green-500 flex items-center justify-center mr-3">
+                    <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                  Interactive AI-powered chat
+                </li>
+              </ul>
+            </div>
             
-            <button
-              onClick={() => handleContinue()}
-              className="w-full py-3 px-6 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition-all duration-200 flex items-center justify-center"
-            >
+            <button className="w-full py-3 px-6 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition-all duration-200 flex items-center justify-center">
               Start Guided Upload
               <ArrowLeft className="h-5 w-5 ml-2 rotate-180" />
             </button>
@@ -102,13 +100,12 @@ export default function PremiumAssessmentPage({ onBack, onContinue }: PremiumAss
 
           {/* AI-Powered Connected Assessment */}
           <div
-            className={`bg-white border-2 rounded-xl p-8 cursor-pointer transition-all duration-200 relative ${
+            onClick={() => onContinue('connected')}
+            className={`bg-gray-800 border-2 rounded-xl p-8 cursor-pointer transition-all duration-200 relative ${
               selectedType === 'connected'
-                ? 'border-blue-500 bg-gray-750'
+                ? 'border-blue-500 bg-gray-700'
                 : 'border-gray-700 hover:border-gray-600'
             }`}
-            style={{ backgroundColor: selectedType === 'connected' ? '#374151' : '#1f2937' }}
-            onClick={() => setSelectedType('connected')}
           >
             {/* Most Comprehensive Badge */}
             <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
@@ -133,53 +130,52 @@ export default function PremiumAssessmentPage({ onBack, onContinue }: PremiumAss
               comprehensive assessment with live data.
             </p>
             
-            <ul className="space-y-3 mb-8">
-              <li className="flex items-center text-gray-300">
-                <div className="w-5 h-5 rounded-full bg-green-500 flex items-center justify-center mr-3">
-                  <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                  </svg>
-                </div>
-                Real-time cloud analysis
-              </li>
-              <li className="flex items-center text-gray-300">
-                <div className="w-5 h-5 rounded-full bg-green-500 flex items-center justify-center mr-3">
-                  <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                  </svg>
-                </div>
-                Most accurate assessment
-              </li>
-              <li className="flex items-center text-gray-300">
-                <div className="w-5 h-5 rounded-full bg-green-500 flex items-center justify-center mr-3">
-                  <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                  </svg>
-                </div>
-                Live infrastructure insights
-              </li>
-              <li className="flex items-center text-gray-300">
-                <div className="w-5 h-5 rounded-full bg-green-500 flex items-center justify-center mr-3">
-                  <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                  </svg>
-                </div>
-                Cost optimization insights
-              </li>
-              <li className="flex items-center text-gray-300">
-                <div className="w-5 h-5 rounded-full bg-green-500 flex items-center justify-center mr-3">
-                  <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                  </svg>
-                </div>
-                Advanced AI recommendations
-              </li>
-            </ul>
+            <div className="flex-1">
+              <ul className="space-y-3 mb-8">
+                <li className="flex items-center text-gray-300">
+                  <div className="w-5 h-5 rounded-full bg-green-500 flex items-center justify-center mr-3">
+                    <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                  Real-time cloud analysis
+                </li>
+                <li className="flex items-center text-gray-300">
+                  <div className="w-5 h-5 rounded-full bg-green-500 flex items-center justify-center mr-3">
+                    <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                  Most accurate assessment
+                </li>
+                <li className="flex items-center text-gray-300">
+                  <div className="w-5 h-5 rounded-full bg-green-500 flex items-center justify-center mr-3">
+                    <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                  Live infrastructure insights
+                </li>
+                <li className="flex items-center text-gray-300">
+                  <div className="w-5 h-5 rounded-full bg-green-500 flex items-center justify-center mr-3">
+                    <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                  Cost optimization insights
+                </li>
+                <li className="flex items-center text-gray-300">
+                  <div className="w-5 h-5 rounded-full bg-green-500 flex items-center justify-center mr-3">
+                    <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                  Advanced AI recommendations
+                </li>
+              </ul>
+            </div>
             
-            <button
-              onClick={() => handleContinue()}
-              className="w-full py-3 px-6 bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700 text-white rounded-lg font-semibold transition-all duration-200 flex items-center justify-center"
-            >
+            <button className="w-full py-3 px-6 bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700 text-white rounded-lg font-semibold transition-all duration-200 flex items-center justify-center">
               Start Connected Assessment
               <ArrowLeft className="h-5 w-5 ml-2 rotate-180" />
             </button>

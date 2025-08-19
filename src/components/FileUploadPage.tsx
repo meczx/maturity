@@ -151,22 +151,14 @@ export default function FileUploadPage({ onBack, onStartAssessment, selectedProv
           </div>
         )}
 
-        {/* Navigation */}
-        <div className="flex justify-between items-center">
-          <button
-            onClick={onBack}
-            className="flex items-center text-gray-300 hover:text-white transition-colors"
-          >
-            <ArrowLeft className="h-5 w-5 mr-2" />
-            Back
-          </button>
-          
+        {/* Start Assessment Button */}
+        <div className="text-center">
           <button
             onClick={onStartAssessment}
             disabled={uploadedFiles.length === 0}
-            className={`px-8 py-3 rounded-lg font-semibold transition-all duration-200 flex items-center ${
+            className={`px-8 py-3 rounded-lg font-semibold transition-all duration-200 flex items-center mx-auto ${
               uploadedFiles.length > 0
-                ? 'bg-gray-600 hover:bg-gray-500 text-white'
+                ? 'bg-blue-600 hover:bg-blue-700 text-white'
                 : 'bg-gray-700 text-gray-400 cursor-not-allowed'
             }`}
           >

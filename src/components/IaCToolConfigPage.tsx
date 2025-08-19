@@ -18,16 +18,17 @@ export default function IaCToolConfigPage({ onBack, onContinue, selectedProvider
     { id: 'cloudformation', name: 'AWS CloudFormation' }
   ];
 
-  const handleContinue = () => {
-    if (toolType) {
-      onContinue({ 
-        toolType, 
-        selectedTool: toolType === 'single' ? selectedTool : undefined 
-      });
+  const handleToolTypeSelection = (type: 'single' | 'multiple') => {
+    setToolType(type);
+    if (type === 'multiple') {
+      onContinue({ toolType: type });
     }
   };
 
-  const canContinue = toolType && (toolType === 'multiple' || selectedTool);
+  const handleToolSelection = (tool: string) => {
+    setSelectedTool(tool);
+    onContinue({ toolType: 'single', selectedTool: tool });
+  };
 
   return (
     <div className="min-h-screen bg-gray-900 text-white">
@@ -61,51 +62,33 @@ export default function IaCToolConfigPage({ onBack, onContinue, selectedProvider
           {/* Tool Type Selection */}
           <div className="space-y-4 mb-8">
             <div
+              onClick={() => handleToolTypeSelection('single')}
               className={`bg-gray-800 border-2 rounded-xl p-6 cursor-pointer transition-all duration-200 ${
                 toolType === 'single'
                   ? 'border-blue-500 bg-gray-750'
                   : 'border-gray-700 hover:border-gray-600'
               }`}
-              onClick={() => setToolType('single')}
             >
               <div className="flex items-center justify-between">
                 <div>
                   <h3 className="text-lg font-bold text-white mb-1">Single IaC Tool</h3>
                   <p className="text-gray-400">All infrastructure managed with one tool</p>
                 </div>
-                <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${
-                  toolType === 'single'
-                    ? 'border-blue-500 bg-blue-500'
-                    : 'border-gray-400'
-                }`}>
-                  {toolType === 'single' && (
-                    <div className="w-3 h-3 bg-white rounded-full"></div>
-                  )}
-                </div>
               </div>
             </div>
 
             <div
+              onClick={() => handleToolTypeSelection('multiple')}
               className={`bg-gray-800 border-2 rounded-xl p-6 cursor-pointer transition-all duration-200 ${
                 toolType === 'multiple'
                   ? 'border-blue-500 bg-gray-750'
                   : 'border-gray-700 hover:border-gray-600'
               }`}
-              onClick={() => setToolType('multiple')}
             >
               <div className="flex items-center justify-between">
                 <div>
                   <h3 className="text-lg font-bold text-white mb-1">Multiple IaC Tools</h3>
                   <p className="text-gray-400">Different tools for different parts of infrastructure</p>
-                </div>
-                <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${
-                  toolType === 'multiple'
-                    ? 'border-blue-500 bg-blue-500'
-                    : 'border-gray-400'
-                }`}>
-                  {toolType === 'multiple' && (
-                    <div className="w-3 h-3 bg-white rounded-full"></div>
-                  )}
                 </div>
               </div>
             </div>
@@ -119,26 +102,17 @@ export default function IaCToolConfigPage({ onBack, onContinue, selectedProvider
                 {tools.map((tool) => (
                   <div
                     key={tool.id}
+                    onClick={() => handleToolSelection(tool.id)}
                     className={`bg-gray-800 border-2 rounded-xl p-4 cursor-pointer transition-all duration-200 ${
                       selectedTool === tool.id
                         ? 'border-blue-500 bg-gray-750'
                         : 'border-gray-700 hover:border-gray-600'
                     }`}
-                    onClick={() => setSelectedTool(tool.id)}
                   >
                     <div className="flex items-center justify-between">
                       <div className="flex items-center">
                         <Code className="h-5 w-5 text-gray-400 mr-3" />
                         <span className="text-white font-medium">{tool.name}</span>
-                      </div>
-                      <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
-                        selectedTool === tool.id
-                          ? 'border-blue-500 bg-blue-500'
-                          : 'border-gray-400'
-                      }`}>
-                        {selectedTool === tool.id && (
-                          <div className="w-2 h-2 bg-white rounded-full"></div>
-                        )}
                       </div>
                     </div>
                   </div>
@@ -146,30 +120,6 @@ export default function IaCToolConfigPage({ onBack, onContinue, selectedProvider
               </div>
             </div>
           )}
-        </div>
-
-        {/* Navigation */}
-        <div className="flex justify-between items-center">
-          <button
-            onClick={onBack}
-            className="flex items-center text-gray-300 hover:text-white transition-colors"
-          >
-            <ArrowLeft className="h-5 w-5 mr-2" />
-            Back
-          </button>
-          
-          <button
-            onClick={handleContinue}
-            disabled={!canContinue}
-            className={`px-8 py-3 rounded-lg font-semibold transition-all duration-200 flex items-center ${
-              canContinue
-                ? 'bg-gray-600 hover:bg-gray-500 text-white'
-                : 'bg-gray-700 text-gray-400 cursor-not-allowed'
-            }`}
-          >
-            Continue
-            <ArrowLeft className="h-5 w-5 ml-2 rotate-180" />
-          </button>
         </div>
       </div>
     </div>

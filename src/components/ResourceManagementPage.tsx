@@ -10,12 +10,6 @@ interface ResourceManagementPageProps {
 export default function ResourceManagementPage({ onBack, onContinue, selectedProvider }: ResourceManagementPageProps) {
   const [selectedType, setSelectedType] = useState<'automated' | 'manual' | 'hybrid' | null>(null);
 
-  const handleContinue = () => {
-    if (selectedType) {
-      onContinue(selectedType);
-    }
-  };
-
   return (
     <div className="min-h-screen bg-gray-900 text-white">
       <div className="max-w-4xl mx-auto px-6 py-12">
@@ -45,12 +39,12 @@ export default function ResourceManagementPage({ onBack, onContinue, selectedPro
         <div className="space-y-4 mb-12">
           {/* Fully Automated */}
           <div
+            onClick={() => onContinue('automated')}
             className={`bg-gray-800 border-2 rounded-xl p-6 cursor-pointer transition-all duration-200 ${
               selectedType === 'automated'
                 ? 'border-green-500 bg-gray-750'
                 : 'border-gray-700 hover:border-gray-600'
             }`}
-            onClick={() => setSelectedType('automated')}
           >
             <div className="flex items-center justify-between">
               <div className="flex items-center">
@@ -66,26 +60,17 @@ export default function ResourceManagementPage({ onBack, onContinue, selectedPro
                   </p>
                 </div>
               </div>
-              <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${
-                selectedType === 'automated'
-                  ? 'border-green-500 bg-green-500'
-                  : 'border-gray-400'
-              }`}>
-                {selectedType === 'automated' && (
-                  <div className="w-3 h-3 bg-white rounded-full"></div>
-                )}
-              </div>
             </div>
           </div>
 
           {/* Fully Manual */}
           <div
+            onClick={() => onContinue('manual')}
             className={`bg-gray-800 border-2 rounded-xl p-6 cursor-pointer transition-all duration-200 ${
               selectedType === 'manual'
                 ? 'border-orange-500 bg-gray-750'
                 : 'border-gray-700 hover:border-gray-600'
             }`}
-            onClick={() => setSelectedType('manual')}
           >
             <div className="flex items-center justify-between">
               <div className="flex items-center">
@@ -101,26 +86,17 @@ export default function ResourceManagementPage({ onBack, onContinue, selectedPro
                   </p>
                 </div>
               </div>
-              <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${
-                selectedType === 'manual'
-                  ? 'border-orange-500 bg-orange-500'
-                  : 'border-gray-400'
-              }`}>
-                {selectedType === 'manual' && (
-                  <div className="w-3 h-3 bg-white rounded-full"></div>
-                )}
-              </div>
             </div>
           </div>
 
           {/* Hybrid Approach */}
           <div
+            onClick={() => onContinue('hybrid')}
             className={`bg-gray-800 border-2 rounded-xl p-6 cursor-pointer transition-all duration-200 ${
               selectedType === 'hybrid'
                 ? 'border-blue-500 bg-gray-750'
                 : 'border-gray-700 hover:border-gray-600'
             }`}
-            onClick={() => setSelectedType('hybrid')}
           >
             <div className="flex items-center justify-between">
               <div className="flex items-center">
@@ -136,41 +112,8 @@ export default function ResourceManagementPage({ onBack, onContinue, selectedPro
                   </p>
                 </div>
               </div>
-              <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${
-                selectedType === 'hybrid'
-                  ? 'border-blue-500 bg-blue-500'
-                  : 'border-gray-400'
-              }`}>
-                {selectedType === 'hybrid' && (
-                  <div className="w-3 h-3 bg-white rounded-full"></div>
-                )}
-              </div>
             </div>
           </div>
-        </div>
-
-        {/* Navigation */}
-        <div className="flex justify-between items-center">
-          <button
-            onClick={onBack}
-            className="flex items-center text-gray-300 hover:text-white transition-colors"
-          >
-            <ArrowLeft className="h-5 w-5 mr-2" />
-            Back
-          </button>
-          
-          <button
-            onClick={handleContinue}
-            disabled={!selectedType}
-            className={`px-8 py-3 rounded-lg font-semibold transition-all duration-200 flex items-center ${
-              selectedType
-                ? 'bg-gray-600 hover:bg-gray-500 text-white'
-                : 'bg-gray-700 text-gray-400 cursor-not-allowed'
-            }`}
-          >
-            Continue
-            <ArrowLeft className="h-5 w-5 ml-2 rotate-180" />
-          </button>
         </div>
       </div>
     </div>
