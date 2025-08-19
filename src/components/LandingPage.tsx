@@ -13,8 +13,37 @@ import InfrastructureExportPage from './InfrastructureExportPage';
 import FileUploadPage from './FileUploadPage';
 import ChatbotWidget from './ChatbotWidget';
 import ConnectedAssessmentPage from './ConnectedAssessmentPage';
+import ResourceDiscoveryScriptPage from './ResourceDiscoveryScriptPage';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
+
+// FAQ Item Component
+function FAQItem({ question, answer }: { question: string; answer: string }) {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <div className="bg-gray-800 rounded-lg border border-gray-700">
+      <button 
+        className="w-full text-left p-6 focus:outline-none"
+        onClick={() => setIsOpen(!isOpen)}
+      >
+        <div className="flex justify-between items-center">
+          <h3 className="text-lg font-semibold text-white">
+            {question}
+          </h3>
+          <ChevronRight className={`h-5 w-5 text-gray-400 transition-transform ${isOpen ? 'transform rotate-90' : ''}`} />
+        </div>
+      </button>
+      {isOpen && (
+        <div className="px-6 pb-6">
+          <p className="text-gray-300 leading-relaxed">
+            {answer}
+          </p>
+        </div>
+      )}
+    </div>
+  );
+}
 
 function LandingPage() {
   const [showAssessment, setShowAssessment] = useState(false);
@@ -35,6 +64,7 @@ function LandingPage() {
   const [showFileUpload, setShowFileUpload] = useState(false);
   const [managementType, setManagementType] = useState<'automated' | 'manual' | 'hybrid' | null>(null);
   const [iacConfig, setIaCConfig] = useState<{ toolType: 'single' | 'multiple'; selectedTool?: string } | null>(null);
+  const [showResourceDiscoveryScript, setShowResourceDiscoveryScript] = useState(false);
   const [showPremiumAccountInfo, setShowPremiumAccountInfo] = useState(false);
   const [showConnectedAssessment, setShowConnectedAssessment] = useState(false);
   const { logout, sessionId } = useAuth();
@@ -147,6 +177,8 @@ function LandingPage() {
     setShowResourceManagement(false);
     if (type === 'automated') {
       setShowIaCToolConfig(true);
+    } else if (type === 'manual') {
+      setShowResourceDiscoveryScript(true);
     } else {
       // For manual or hybrid, skip to file upload
       setShowFileUpload(true);
@@ -156,6 +188,16 @@ function LandingPage() {
   const handleBackFromResourceManagement = () => {
     setShowResourceManagement(false);
     setShowPremiumAccountInfo(true);
+  };
+
+  const handleResourceDiscoveryScriptContinue = () => {
+    setShowResourceDiscoveryScript(false);
+    setShowFileUpload(true);
+  };
+
+  const handleBackFromResourceDiscoveryScript = () => {
+    setShowResourceDiscoveryScript(false);
+    setShowResourceManagement(true);
   };
 
   const handleIaCToolConfigSelection = (config: { toolType: 'single' | 'multiple'; selectedTool?: string }) => {
@@ -224,6 +266,7 @@ function LandingPage() {
     setShowIaCToolConfig(false);
     setShowInfrastructureExport(false);
     setShowFileUpload(false);
+    setShowResourceDiscoveryScript(false);
     setShowPremiumAccountInfo(false);
     setShowConnectedAssessment(false);
     setShowChatbot(true);
@@ -307,6 +350,16 @@ function LandingPage() {
     );
   }
 
+  if (showResourceDiscoveryScript && selectedProvider) {
+    return (
+      <ResourceDiscoveryScriptPage 
+        onBack={handleBackFromResourceDiscoveryScript}
+        onContinue={handleResourceDiscoveryScriptContinue}
+        selectedProvider={selectedProvider}
+      />
+    );
+  }
+
   if (showIaCToolConfig && selectedProvider) {
     return (
       <IaCToolConfigPage 
@@ -381,9 +434,9 @@ function LandingPage() {
           </p>
           <button
             onClick={startAssessment}
-            className="inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-300 transform hover:scale-105 hover:shadow-lg mr-4"
+            className="inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-300 transform hover:scale-105 hover:shadow-lg mr-4 mb-4 sm:mb-0"
           >
-            Start Quick Assessment
+            Start Free Assessment
             <ChevronRight className="ml-2 w-5 h-5" />
           </button>
           <button
@@ -414,16 +467,45 @@ function LandingPage() {
           </div>
           
           <div className="space-y-4">
-            <div className="bg-gray-800 rounded-lg border border-gray-700">
-              <button className="w-full text-left p-6 focus:outline-none">
-                <div className="flex justify-between items-center">
-                  <h3 className="text-lg font-semibold text-white">
-                    What is a Cloud Maturity Assessment?
-                  </h3>
-                  <ChevronRight className="h-5 w-5 text-gray-400 transform rotate-90" />
-                </div>
-              </button>
-            </div>
+            {[
+              {
+                question: "What is a Cloud Maturity Assessment?",
+                answer: "A Cloud Maturity Assessment evaluates your organization's cloud adoption across key dimensions including security, architecture, operations, cost management, and network design. It provides a comprehensive view of your current cloud posture and identifies areas for improvement."
+              },
+              {
+                question: "What's the difference between Quick Insight and AI-Powered Deep Assessment?",
+                answer: "Quick Insight is a free, questionnaire-based assessment that provides general recommendations. AI-Powered Deep Assessment analyzes your actual infrastructure files or connects directly to your cloud environment for detailed, specific recommendations."
+              },
+              {
+                question: "Do I need to provide cloud credentials or access?",
+                answer: "For Quick Insight and Guided Upload assessments, no credentials are needed. For Connected Assessment, we require read-only access to generate comprehensive infrastructure analysis."
+              },
+              {
+                question: "What cloud providers do you support?",
+                answer: "We support Amazon Web Services (AWS), Microsoft Azure, and Google Cloud Platform (GCP) across all our assessment types."
+              },
+              {
+                question: "How long does each assessment take?",
+                answer: "Quick Insight takes 5-10 minutes, Guided Upload takes 15-30 minutes depending on file preparation, and Connected Assessment takes 10-15 minutes for setup plus analysis time."
+              },
+              {
+                question: "What files do I need for the Guided Upload assessment?",
+                answer: "You can upload CloudFormation templates, Terraform state files, AWS Config exports, or other infrastructure-as-code files in JSON or YAML format."
+              },
+              {
+                question: "Is my data secure and private?",
+                answer: "Yes, all data is encrypted in transit and at rest. We only access what's necessary for assessment and never store sensitive credentials. Data is processed securely and can be deleted upon request."
+              },
+              {
+                question: "What kind of recommendations will I receive?",
+                answer: "You'll receive actionable recommendations across security hardening, cost optimization, architectural improvements, operational excellence, and compliance best practices tailored to your specific environment."
+              }
+            ].map((faq, index) => (
+              <FAQItem key={index} question={faq.question} answer={faq.answer} />
+            ))}
+          </div>
+        </div>
+      </section>
             
             <div className="bg-gray-800 rounded-lg border border-gray-700">
               <button className="w-full text-left p-6 focus:outline-none">
@@ -571,9 +653,9 @@ function LandingPage() {
           </p>
           <button
             onClick={startAssessment}
-            className="inline-flex items-center bg-white text-blue-600 hover:bg-gray-100 px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-300 transform hover:scale-105 hover:shadow-xl mr-4"
+            className="inline-flex items-center bg-white text-blue-600 hover:bg-gray-100 px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-300 transform hover:scale-105 hover:shadow-xl mr-4 mb-4 sm:mb-0"
           >
-            Start Quick Assessment
+            Start Free Assessment
             <ChevronRight className="ml-2 w-5 h-5" />
           </button>
           <button

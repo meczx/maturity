@@ -92,11 +92,8 @@ export default function PremiumAssessmentPage({ onBack, onContinue }: PremiumAss
             </ul>
             
             <button
-              className={`w-full py-3 px-6 rounded-lg font-semibold transition-all duration-200 flex items-center justify-center ${
-                selectedType === 'guided' 
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-blue-600 text-white hover:bg-blue-700'
-              }`}
+              onClick={() => handleContinue()}
+              className="w-full py-3 px-6 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition-all duration-200 flex items-center justify-center"
             >
               Start Guided Upload
               <ArrowLeft className="h-5 w-5 ml-2 rotate-180" />
@@ -167,45 +164,26 @@ export default function PremiumAssessmentPage({ onBack, onContinue }: PremiumAss
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                   </svg>
                 </div>
+                Cost optimization insights
+              </li>
+              <li className="flex items-center text-gray-300">
+                <div className="w-5 h-5 rounded-full bg-green-500 flex items-center justify-center mr-3">
+                  <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                  </svg>
+                </div>
                 Advanced AI recommendations
               </li>
             </ul>
             
             <button
-              className={`w-full py-3 px-6 rounded-lg font-semibold transition-all duration-200 flex items-center justify-center ${
-                selectedType === 'connected'
-                  ? 'bg-gradient-to-r from-blue-600 to-green-600 text-white'
-                  : 'bg-gradient-to-r from-blue-600 to-green-600 text-white hover:from-blue-700 hover:to-green-700'
-              }`}
+              onClick={() => handleContinue()}
+              className="w-full py-3 px-6 bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700 text-white rounded-lg font-semibold transition-all duration-200 flex items-center justify-center"
             >
               Start Connected Assessment
               <ArrowLeft className="h-5 w-5 ml-2 rotate-180" />
             </button>
           </div>
-        </div>
-
-        {/* Navigation */}
-        <div className="flex justify-between items-center">
-          <button
-            onClick={onBack}
-            className="flex items-center text-gray-300 hover:text-white transition-colors"
-          >
-            <ArrowLeft className="h-5 w-5 mr-2" />
-            Back
-          </button>
-          
-          <button
-            onClick={handleContinue}
-            disabled={!selectedType}
-            className={`px-8 py-3 rounded-lg font-semibold transition-all duration-200 flex items-center ${
-              selectedType
-                ? 'bg-gray-600 hover:bg-gray-500 text-white'
-                : 'bg-gray-700 text-gray-400 cursor-not-allowed'
-            }`}
-          >
-            Continue
-            <ArrowLeft className="h-5 w-5 ml-2 rotate-180" />
-          </button>
         </div>
       </div>
     </div>
