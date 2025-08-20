@@ -34,12 +34,6 @@ export default function PremiumCloudProviderPage({ onBack, onContinue, assessmen
     }
   ];
 
-  const handleContinue = () => {
-    if (selectedProvider) {
-      onContinue(selectedProvider);
-    }
-  };
-
   const getTitle = () => {
     return assessmentType === 'guided' 
       ? 'AI-Powered Guided Upload'
@@ -77,7 +71,7 @@ export default function PremiumCloudProviderPage({ onBack, onContinue, assessmen
                   ? 'border-blue-500 bg-gray-750'
                   : 'border-gray-700 hover:border-gray-600'
               }`}
-              onClick={() => setSelectedProvider(provider.id)}
+              onClick={() => onContinue(provider.id)}
             >
               <div className="flex items-center justify-between">
                 <div className="flex items-center">
@@ -93,21 +87,10 @@ export default function PremiumCloudProviderPage({ onBack, onContinue, assessmen
                     </p>
                   </div>
                 </div>
-                <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${
-                  selectedProvider === provider.id
-                    ? 'border-blue-500 bg-blue-500'
-                    : 'border-gray-400'
-                }`}>
-                  {selectedProvider === provider.id && (
-                    <div className="w-3 h-3 bg-white rounded-full"></div>
-                  )}
-                </div>
               </div>
             </div>
           ))}
         </div>
-
-        {/* Navigation */}
       </div>
     </div>
   );
