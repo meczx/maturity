@@ -370,24 +370,24 @@ export default function AssessmentQuestions({ onComplete, onClose }: AssessmentQ
     const nextDomain = domains.find(d => d.name === nextQuestion?.domain);
     
     return (
-      <div className="fixed inset-0 bg-gray-900 flex items-center justify-center z-50">
-        <div className="bg-white rounded-2xl p-8 max-w-md w-full mx-4 text-center">
+      <div className="fixed inset-0 bg-gray-900 bg-opacity-95 flex items-center justify-center z-50 p-4">
+        <div className="bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full mx-4 text-center">
           <div className="flex justify-center mb-6">
             <Loader2 className="h-12 w-12 text-blue-600 animate-spin" />
           </div>
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">
+          <h2 className="text-2xl font-bold text-gray-900 mb-3">
             Please wait...
           </h2>
-          <p className="text-lg text-gray-600 mb-6">
-            {nextDomain?.name} is loading
+          <p className="text-lg text-gray-700 mb-6">
+            Loading {nextDomain?.name} Assessment
           </p>
-          <div className="w-full bg-gray-200 rounded-full h-2">
+          <div className="w-full bg-gray-200 rounded-full h-3 mb-3">
             <div 
-              className="bg-blue-600 h-2 rounded-full transition-all duration-300"
+              className="bg-gradient-to-r from-blue-500 to-indigo-600 h-3 rounded-full transition-all duration-300"
               style={{ width: `${getProgressPercentage()}%` }}
             ></div>
           </div>
-          <p className="text-sm text-gray-500 mt-2">
+          <p className="text-sm text-gray-600">
             Question {currentQuestionIndex + 1} of {questions.length}
           </p>
         </div>
