@@ -355,15 +355,9 @@ export default function AssessmentQuestions({ onComplete, onClose }: AssessmentQ
           <div className="space-y-4">
             <button
               onClick={handleProceedToAssessment}
-              className="w-full bg-blue-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
+              className="w-full bg-blue-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-blue-700 transition-colors mb-4"
             >
-              Proceed to Your Assessment
-            </button>
-            <button
-              onClick={onClose}
-              className="w-full bg-gray-200 text-gray-700 py-3 px-6 rounded-lg font-semibold hover:bg-gray-300 transition-colors"
-            >
-              Close
+              View Detailed Results
             </button>
           </div>
         </div>
@@ -376,24 +370,24 @@ export default function AssessmentQuestions({ onComplete, onClose }: AssessmentQ
     const nextDomain = domains.find(d => d.name === nextQuestion?.domain);
     
     return (
-      <div className="fixed inset-0 bg-gray-900 flex items-center justify-center z-50">
-        <div className="bg-white rounded-2xl p-8 max-w-md w-full mx-4 text-center">
+      <div className="fixed inset-0 bg-gray-900 bg-opacity-95 flex items-center justify-center z-50 p-4">
+        <div className="bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full mx-4 text-center">
           <div className="flex justify-center mb-6">
             <Loader2 className="h-12 w-12 text-blue-600 animate-spin" />
           </div>
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">
+          <h2 className="text-2xl font-bold text-gray-900 mb-3">
             Please wait...
           </h2>
-          <p className="text-lg text-gray-600 mb-6">
-            {nextDomain?.name} is loading
+          <p className="text-lg text-gray-700 mb-6">
+            Loading {nextDomain?.name} Assessment
           </p>
-          <div className="w-full bg-gray-200 rounded-full h-2">
+          <div className="w-full bg-gray-200 rounded-full h-3 mb-3">
             <div 
-              className="bg-blue-600 h-2 rounded-full transition-all duration-300"
+              className="bg-gradient-to-r from-blue-500 to-indigo-600 h-3 rounded-full transition-all duration-300"
               style={{ width: `${getProgressPercentage()}%` }}
             ></div>
           </div>
-          <p className="text-sm text-gray-500 mt-2">
+          <p className="text-sm text-gray-600">
             Question {currentQuestionIndex + 1} of {questions.length}
           </p>
         </div>
@@ -402,12 +396,84 @@ export default function AssessmentQuestions({ onComplete, onClose }: AssessmentQ
   }
 
   return (
-    <div className="fixed inset-0 bg-gray-900 flex items-center justify-center z-50">
-      <div className="bg-white rounded-2xl p-8 max-w-2xl w-full mx-4">
+    <div className="fixed inset-0 bg-gray-900 bg-opacity-95 flex items-center justify-center z-50 p-4">
+      <div className="bg-white rounded-2xl shadow-2xl max-w-3xl w-full mx-4 max-h-[90vh] overflow-y-auto">
         {/* Header */}
-        <div className="flex justify-between items-center mb-6">
-          <div>
-            <h1 className="text-2xl font-bold text-gray-900">
+        <div className="bg-gradient-to-r from-blue-50 to-indigo-50 p-6 rounded-t-2xl border-b border-gray-100">
+          <div className="flex justify-between items-start">
+            <div className="flex-1">
+              <h1 className="text-3xl font-bold text-gray-900 mb-2">
+                Cloud Maturity Assessment
+              </h1>
+              <p className="text-lg text-gray-700 mb-3">
+                {currentDomainInfo?.description}
+              </p>
+              <div className={`inline-flex items-center px-4 py-2 rounded-full text-white font-medium text-sm ${currentDomainInfo?.color}`}>
+                {currentDomain}
+              </div>
+            </div>
+            <button
+              onClick={onClose}
+              className="text-gray-400 hover:text-gray-600 p-2 rounded-full hover:bg-gray-100 transition-colors"
+            >
+              ✕
+            </button>
+          </div>
+        </div>
+
+        {/* Content */}
+        <div className="p-8">
+          {/* Progress Section */}
+          <div className="mb-8">
+            <div className="flex justify-between text-sm text-gray-600 mb-3">
+              <span className="font-medium">Progress</span>
+              <span>Question {currentQuestionIndex + 1} of {questions.length}</span>
+            </div>
+            <div className="w-full bg-gray-200 rounded-full h-3 mb-2">
+              <div 
+                className="bg-gradient-to-r from-blue-500 to-indigo-600 h-3 rounded-full transition-all duration-500 ease-out"
+                style={{ width: `${getProgressPercentage()}%` }}
+              ></div>
+            </div>
+            <p className="text-xs text-gray-500">
+              {Math.round(getProgressPercentage())}% Complete
+            </p>
+          </div>
+
+          {/* Question Section */}
+          <div className="mb-8">
+            <h2 className="text-2xl font-bold text-gray-900 mb-6 leading-relaxed">
+              {currentQuestion.text}
+            </h2>
+
+            {/* Options */}
+            <div className="space-y-3">
+              {currentQuestion.options.map((option, index) => (
+                <button
+                  key={index}
+                  onClick={() => handleAnswer(option)}
+                  className="w-full p-5 text-left border-2 border-gray-200 rounded-xl hover:border-blue-500 hover:bg-blue-50 transition-all duration-200 group shadow-sm hover:shadow-md"
+                >
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center">
+                      {option === "Yes" && <CheckCircle className="h-5 w-5 text-green-600 mr-4" />}
+                      {option === "No" && <XCircle className="h-5 w-5 text-red-600 mr-4" />}
+                      {option === "Unsure" && <HelpCircle className="h-5 w-5 text-yellow-600 mr-4" />}
+                      <span className="text-lg font-medium text-gray-900 group-hover:text-blue-700 transition-colors">
+                        {option}
+                      </span>
+                    </div>
+                    <ArrowRight className="h-5 w-5 text-gray-400 group-hover:text-blue-600 transition-colors transform group-hover:translate-x-1" />
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
               Cloud Maturity Assessment
             </h1>
             <p className="text-gray-600">

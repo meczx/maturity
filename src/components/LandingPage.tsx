@@ -268,7 +268,7 @@ function LandingPage() {
     setShowResourceDiscoveryScript(false);
     setShowPremiumAccountInfo(false);
     setShowConnectedAssessment(false);
-    setShowChatbot(true);
+    // Don't automatically show chatbot for free assessment
   };
 
   if (showScopePage) {
