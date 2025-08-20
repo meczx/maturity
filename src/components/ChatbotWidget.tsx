@@ -95,9 +95,43 @@ export default function ChatbotWidget({ forceOpen = false, selectedDomain: propS
   // Auto-send start assessment and show bot reply in full-screen assessment mode
   useEffect(() => {
     if (isFullScreen && !assessmentStarted && sessionId) {
-      // Send start assessment API call when chatbot opens in full-screen mode
-      sendApiRequest('start assessment', null);
+      // Check for uploaded files from previous workflow
+      const storedFiles = sessionStorage.getItem('uploadedFiles');
+      let filesData = null;
+      
+      if (storedFiles) {
+        try {
+          const parsedFiles = JSON.parse(storedFiles);
+          if (parsedFiles && parsedFiles.length > 0) {
+            // Use the first file's content for the assessment
+            filesData = parsedFiles[0].content;
+            
+            // Add a message showing the file was processed
+            const fileMessage: Message = {
+              id: Date.now().toString(),
+              text: `📁 **Configuration File Processed**\n\n✅ Successfully analyzed: **${parsedFiles[0].name}**\n📊 File size: ${(parsedFiles[0].size / 1024).toFixed(1)} KB\n\nI'm now analyzing your cloud infrastructure configuration...`,
+              sender: 'bot',
+              timestamp: new Date()
+            };
+            setMessages([fileMessage]);
+          }
+        } catch (error) {
+          console.error('Error parsing stored files:', error);
+        }
+      }
+      
+      // Send start assessment API call with file data if available
+      const query = filesData 
+        ? 'I have uploaded my infrastructure configuration files. Please analyze them and provide a comprehensive cloud maturity assessment.'
+        : 'start assessment';
+        
+      sendApiRequest(query, filesData);
       setAssessmentStarted(true);
+      
+      // Clear stored files after use
+      if (storedFiles) {
+        sessionStorage.removeItem('uploadedFiles');
+      }
     }
   }, [isFullScreen, assessmentStarted, sessionId]);
 
@@ -134,7 +168,7 @@ export default function ChatbotWidget({ forceOpen = false, selectedDomain: propS
       const data = await response.json();
       const botReply: Message = {
         id: (Date.now() + 1).toString(),
-        text: data.response || data.message || 'Sorry, I could not process your request.',
+        text: formatBotResponse(data.response || data.message || 'Sorry, I could not process your request.'),
         sender: 'bot',
         timestamp: new Date()
       };
@@ -144,7 +178,7 @@ export default function ChatbotWidget({ forceOpen = false, selectedDomain: propS
       console.error('API Error:', error);
       const errorReply: Message = {
         id: (Date.now() + 1).toString(),
-        text: 'Sorry, I\'m having trouble connecting to the server. Please try again later.',
+        text: '⚠️ **Connection Issue**\n\nI\'m having trouble connecting to the assessment server. Please check your internet connection and try again.\n\nIf the problem persists, please contact support.',
         sender: 'bot',
         timestamp: new Date()
       };
@@ -154,6 +188,31 @@ export default function ChatbotWidget({ forceOpen = false, selectedDomain: propS
     }
   };
 
+  // Format bot responses for better readability
+  const formatBotResponse = (response: string): string => {
+    // If response is already well-formatted (contains markdown), return as is
+    if (response.includes('**') || response.includes('##') || response.includes('###')) {
+      return response;
+    }
+    
+    // Basic formatting for plain text responses
+    let formatted = response;
+    
+    // Add professional greeting if it's a start message
+    if (response.toLowerCase().includes('hello') || response.toLowerCase().includes('ready to assist')) {
+      formatted = `🤖 **LeanKloud Cloud Assessment Assistant**\n\n${response}`;
+    }
+    
+    // Format questions with better structure
+    if (response.includes('?')) {
+      formatted = formatted.replace(/(\d+\.\s*)/g, '\n**$1**');
+    }
+    
+    // Add spacing for better readability
+    formatted = formatted.replace(/\. ([A-Z])/g, '.\n\n$1');
+    
+    return formatted;
+  };
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
@@ -313,17 +372,24 @@ export default function ChatbotWidget({ forceOpen = false, selectedDomain: propS
                   {/* Use ReactMarkdown for bot replies */}
                   {msg.sender === 'bot' ? (
                     <div>
-                      <div className="prose prose-sm">
+                      <div className="prose prose-sm max-w-none">
                         <ReactMarkdown>{msg.text}</ReactMarkdown>
                       </div>
                       {msg.options && Array.isArray(msg.options) && (
-                        <ul className="mt-2 space-y-1">
+                        <div className="mt-4 space-y-2">
                           {msg.options.map((option, idx) => (
-                            <li key={idx} className="block text-left text-blue-700 bg-blue-50 rounded px-3 py-1">
+                            <button 
+                              key={idx} 
+                              onClick={() => {
+                                setMessage(option);
+                                handleSendMessage();
+                              }}
+                              className="block w-full text-left text-blue-700 bg-blue-50 hover:bg-blue-100 rounded-lg px-4 py-2 transition-colors border border-blue-200"
+                            >
                               {option}
-                            </li>
+                            </button>
                           ))}
-                        </ul>
+                        </div>
                       )}
                     </div>
                   ) : (

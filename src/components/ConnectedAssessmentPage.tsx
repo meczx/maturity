@@ -67,14 +67,34 @@ export default function ConnectedAssessmentPage({ onBack, onStartAssessment, sel
 
   const handleStartAssessment = () => {
     if (uploadedFiles.length > 0) {
-      // Store files in sessionStorage or pass them to the chatbot
-      sessionStorage.setItem('uploadedFiles', JSON.stringify(uploadedFiles.map(f => ({
-        name: f.name,
-        size: f.size,
-        type: f.type
-      }))));
+      // Process and store files for the chatbot
+      const processFiles = async () => {
+        const processedFiles = await Promise.all(
+          uploadedFiles.map(async (file) => {
+            return new Promise((resolve) => {
+              const reader = new FileReader();
+              reader.onload = (e) => {
+                const content = e.target?.result as string;
+                resolve({
+                  name: file.name,
+                  size: file.size,
+                  type: file.type,
+                  content: btoa(content) // Base64 encode
+                });
+              };
+              reader.readAsText(file);
+            });
+          })
+        );
+        
+        sessionStorage.setItem('uploadedFiles', JSON.stringify(processedFiles));
+        onStartAssessment();
+      };
+      
+      processFiles();
+    } else {
+      onStartAssessment();
     }
-    onStartAssessment();
   };
 
   return (
