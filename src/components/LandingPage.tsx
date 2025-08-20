@@ -74,10 +74,15 @@ function LandingPage() {
   // Call start assessment API as soon as assessment starts
   React.useEffect(() => {
     if (showAssessment && sessionId) {
-      fetch('https://2c02ae439d82.ngrok-free.app/cloud_maturity', {
+      fetch(`${Config.local_env}/cloud_maturity`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'ngrok-skip-browser-warning': 'true'
+        },
         body: JSON.stringify({ id: sessionId, query: 'start assessment' })
+      }).catch(error => {
+        console.error('Failed to start assessment:', error);
       });
     }
   }, [showAssessment, sessionId]);

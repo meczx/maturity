@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowLeft, FileText } from 'lucide-react';
+import { ArrowLeft, FileText, Upload, X } from 'lucide-react';
 
 interface ConnectedAssessmentPageProps {
   onBack: () => void;
@@ -9,16 +9,72 @@ interface ConnectedAssessmentPageProps {
 }
 
 export default function ConnectedAssessmentPage({ onBack, onStartAssessment, selectedProvider, accountInfo }: ConnectedAssessmentPageProps) {
-  const [isGenerating, setIsGenerating] = useState(false);
+  const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
+  const [dragActive, setDragActive] = useState(false);
+  const fileInputRef = React.useRef<HTMLInputElement>(null);
 
+  // Handle drag and drop
   const handleGenerateStateFile = async () => {
-    setIsGenerating(true);
-    // Simulate state file generation
-    setTimeout(() => {
-      setIsGenerating(false);
-      // Auto-proceed to assessment after generation
-      onStartAssessment();
-    }, 3000);
+    // This would typically generate a state file from the connected environment
+    // For now, we'll just proceed to file upload
+    onStartAssessment();
+  };
+
+  const handleDrag = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.type === "dragenter" || e.type === "dragover") {
+      setDragActive(true);
+    } else if (e.type === "dragleave") {
+      setDragActive(false);
+    }
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragActive(false);
+    
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      handleFiles(Array.from(e.dataTransfer.files));
+    }
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    if (e.target.files && e.target.files[0]) {
+      handleFiles(Array.from(e.target.files));
+    }
+  };
+
+  const handleFiles = (files: File[]) => {
+    const validFiles = files.filter(file => {
+      const isValidType = file.type === 'application/json' || file.name.endsWith('.yaml') || file.name.endsWith('.yml');
+      const isValidSize = file.size <= 10 * 1024 * 1024; // 10MB
+      return isValidType && isValidSize;
+    });
+    
+    setUploadedFiles(prev => [...prev, ...validFiles]);
+  };
+
+  const removeFile = (index: number) => {
+    setUploadedFiles(prev => prev.filter((_, i) => i !== index));
+  };
+
+  const onButtonClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleStartAssessment = () => {
+    if (uploadedFiles.length > 0) {
+      // Store files in sessionStorage or pass them to the chatbot
+      sessionStorage.setItem('uploadedFiles', JSON.stringify(uploadedFiles.map(f => ({
+        name: f.name,
+        size: f.size,
+        type: f.type
+      }))));
+    }
+    onStartAssessment();
   };
 
   return (
@@ -61,52 +117,83 @@ export default function ConnectedAssessmentPage({ onBack, onStartAssessment, sel
             </div>
           </div>
 
-          {/* Center Content */}
-          <div className="text-center py-12">
-            <div className="mb-8">
-              <FileText className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-              <h2 className="text-2xl font-bold text-white mb-4">
-                Ready to Generate State File
-              </h2>
-              <p className="text-gray-300 mb-8 max-w-2xl mx-auto">
-                Click the button below to connect to your {selectedProvider.toUpperCase()} account and generate the state file.
-              </p>
-            </div>
-
-            <button
-              onClick={handleGenerateStateFile}
-              disabled={isGenerating}
-              className={`px-8 py-4 rounded-lg font-semibold transition-all duration-200 flex items-center justify-center mx-auto ${
-                isGenerating
-                  ? 'bg-gray-600 text-gray-300 cursor-not-allowed'
-                  : 'bg-blue-600 hover:bg-blue-700 text-white'
+          {/* Upload Area */}
+          <div className="mb-8">
+            <div
+              className={`border-2 border-dashed rounded-lg p-12 text-center transition-all duration-200 ${
+                dragActive 
+                  ? 'border-blue-500 bg-blue-900 bg-opacity-20' 
+                  : 'border-gray-600 hover:border-gray-500'
               }`}
+              onDragEnter={handleDrag}
+              onDragLeave={handleDrag}
+              onDragOver={handleDrag}
+              onDrop={handleDrop}
             >
-              {isGenerating ? (
-                <>
-                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-3"></div>
-                  Generating State File...
-                </>
-              ) : (
-                <>
-                  <FileText className="h-5 w-5 mr-2" />
-                  Generate State.json File
-                </>
-              )}
+              <Upload className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+              <h3 className="text-xl font-semibold text-white mb-2">
+                Drop your files here or click to browse
+              </h3>
+              <p className="text-gray-400 mb-6">
+                Supports JSON and YAML files up to 10MB each
+              </p>
+              <button
+                onClick={onButtonClick}
+                className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors"
+              >
+                Choose Files
+              </button>
+              <input
+                ref={fileInputRef}
+                type="file"
+                multiple
+                accept=".json,.yaml,.yml"
+                onChange={handleChange}
+                className="hidden"
+              />
+            </div>
+          </div>
+
+          {/* Uploaded Files */}
+          {uploadedFiles.length > 0 && (
+            <div className="mb-8">
+              <h3 className="text-lg font-semibold text-white mb-4">Uploaded Files</h3>
+              <div className="space-y-2">
+                {uploadedFiles.map((file, index) => (
+                  <div key={index} className="flex items-center justify-between bg-gray-800 rounded-lg p-3">
+                    <div className="flex items-center">
+                      <FileText className="h-5 w-5 text-blue-400 mr-3" />
+                      <div>
+                        <p className="text-white font-medium">{file.name}</p>
+                        <p className="text-gray-400 text-sm">
+                          {(file.size / 1024 / 1024).toFixed(2)} MB
+                        </p>
+                      </div>
+                    </div>
+                    <button
+                      onClick={() => removeFile(index)}
+                      className="text-gray-400 hover:text-red-400 transition-colors"
+                    >
+                      <X className="h-5 w-5" />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Start Assessment Button */}
+          <div className="text-center">
+            <button
+              onClick={handleStartAssessment}
+              className="px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition-all duration-200 flex items-center mx-auto"
+            >
+              Start Assessment
+              <ArrowLeft className="h-5 w-5 ml-2 rotate-180" />
             </button>
           </div>
         </div>
 
-        {/* Upload File Button */}
-        <div className="text-center">
-          <button
-            onClick={onStartAssessment}
-            className="px-8 py-3 bg-gray-700 hover:bg-gray-600 text-white rounded-lg font-semibold transition-all duration-200 flex items-center mx-auto"
-          >
-            Upload File
-            <ArrowLeft className="h-5 w-5 ml-2 rotate-180" />
-          </button>
-        </div>
       </div>
     </div>
   );

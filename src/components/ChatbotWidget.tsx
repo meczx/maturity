@@ -94,8 +94,9 @@ export default function ChatbotWidget({ forceOpen = false, selectedDomain: propS
 
   // Auto-send start assessment and show bot reply in full-screen assessment mode
   useEffect(() => {
-    // Skip auto-start assessment call - wait for user to upload files or send messages
-    if (isFullScreen && !assessmentStarted) {
+    if (isFullScreen && !assessmentStarted && sessionId) {
+      // Send start assessment API call when chatbot opens in full-screen mode
+      sendApiRequest('start assessment', null);
       setAssessmentStarted(true);
     }
   }, [isFullScreen, assessmentStarted, sessionId]);
@@ -110,14 +111,18 @@ export default function ChatbotWidget({ forceOpen = false, selectedDomain: propS
       alert('Please enter a message or upload a file.');
       return;
     }
+    
+    setIsTyping(true);
+    
     try {
       const body: any = {
         id: sessionId,
-        query: query
+        query: query || 'File uploaded'
       };
       if (attachment) {
         body.attachment = attachment;
       }
+      
       const response = await fetch(API_ENDPOINT, {
         method: 'POST',
         headers: {
@@ -125,6 +130,7 @@ export default function ChatbotWidget({ forceOpen = false, selectedDomain: propS
         },
         body: JSON.stringify(body)
       });
+      
       const data = await response.json();
       const botReply: Message = {
         id: (Date.now() + 1).toString(),
@@ -132,6 +138,7 @@ export default function ChatbotWidget({ forceOpen = false, selectedDomain: propS
         sender: 'bot',
         timestamp: new Date()
       };
+      
       setMessages(prev => [...prev, botReply]);
     } catch (error) {
       console.error('API Error:', error);
@@ -157,7 +164,10 @@ export default function ChatbotWidget({ forceOpen = false, selectedDomain: propS
 
   // When user starts assessment, send a start assessment API call
   const handleDomainSelection = (domain: any) => {
-    // Skip sending start assessment - wait for user interaction
+    if (sessionId) {
+      // Send API call when domain is selected
+      sendApiRequest(`start assessment for ${domain.title}`, null);
+    }
   };
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -165,6 +175,7 @@ export default function ChatbotWidget({ forceOpen = false, selectedDomain: propS
     if (!file) return;
     if (file.type !== 'application/json') {
       alert('Please upload a JSON file only.');
+      event.target.value = '';
       return;
     }
     const reader = new FileReader();
@@ -172,8 +183,9 @@ export default function ChatbotWidget({ forceOpen = false, selectedDomain: propS
       try {
         const textContent = e.target?.result as string;
         // Validate JSON first
-        JSON.parse(textContent);
+        const jsonData = JSON.parse(textContent);
         // Base64 encode the file content
+        console.log('File uploaded:', file.name, 'Size:', file.size);
         const base64Content = btoa(textContent);
         setUploadedFile(base64Content);
       } catch (error) {
@@ -187,7 +199,6 @@ export default function ChatbotWidget({ forceOpen = false, selectedDomain: propS
   // Update handleSendMessage to use sendApiRequest
   const handleSendMessage = async () => {
     if (!message.trim() && !uploadedFile) return;
-    setIsTyping(true);
     if (message.trim()) {
       const userMessage: Message = {
         id: Date.now().toString(),
@@ -196,6 +207,7 @@ export default function ChatbotWidget({ forceOpen = false, selectedDomain: propS
         timestamp: new Date()
       };
       setMessages(prev => [...prev, userMessage]);
+      setMessage('');
       setMessage('');
     }
     if (uploadedFile) {
@@ -208,9 +220,8 @@ export default function ChatbotWidget({ forceOpen = false, selectedDomain: propS
       };
       setMessages(prev => [...prev, fileMessage]);
     }
-    await sendApiRequest(message.trim() ? message : null, uploadedFile ? uploadedFile : null);
+    await sendApiRequest(message.trim() || null, uploadedFile || null);
     setUploadedFile(null);
-  };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && !e.shiftKey) {
