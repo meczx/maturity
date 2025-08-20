@@ -94,37 +94,9 @@ export default function ChatbotWidget({ forceOpen = false, selectedDomain: propS
 
   // Auto-send start assessment and show bot reply in full-screen assessment mode
   useEffect(() => {
-    if (isFullScreen && !assessmentStarted && sessionId) {
-      const sendStartAssessment = async () => {
-        setIsTyping(true);
-        try {
-          const response = await fetch(API_ENDPOINT, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ id: sessionId, query: 'start assessment' })
-          });
-          const data = await response.json();
-          const botReply: Message = {
-            id: (Date.now() + 1).toString(),
-            text: data.response || data.message || 'Sorry, I could not process your request.',
-            sender: 'bot',
-            timestamp: new Date()
-          };
-          setMessages(prev => [...prev, botReply]);
-        } catch (error) {
-          const errorMsg: Message = {
-            id: (Date.now() + 1).toString(),
-            text: 'Sorry, I could not process your request.',
-            sender: 'bot',
-            timestamp: new Date()
-          };
-          setMessages(prev => [...prev, errorMsg]);
-        } finally {
-          setIsTyping(false);
-          setAssessmentStarted(true);
-        }
-      };
-      sendStartAssessment();
+    // Skip auto-start assessment call - wait for user to upload files or send messages
+    if (isFullScreen && !assessmentStarted) {
+      setAssessmentStarted(true);
     }
   }, [isFullScreen, assessmentStarted, sessionId]);
 
@@ -185,8 +157,7 @@ export default function ChatbotWidget({ forceOpen = false, selectedDomain: propS
 
   // When user starts assessment, send a start assessment API call
   const handleDomainSelection = (domain: any) => {
-    // Send start assessment to API
-    sendApiRequest('start assessment', null);
+    // Skip sending start assessment - wait for user interaction
   };
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {

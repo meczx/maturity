@@ -107,26 +107,26 @@ echo "Resource discovery complete! Upload the generated JSON files."`;
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-900 text-white">
       <div className="max-w-4xl mx-auto px-6 py-12">
         {/* Header */}
         <div className="mb-8">
           <button
             onClick={onBack}
-            className="flex items-center text-gray-600 hover:text-gray-800 mb-6 transition-colors"
+            className="flex items-center text-gray-300 hover:text-white mb-6 transition-colors"
           >
             <ArrowLeft className="h-5 w-5 mr-2" />
             Back
           </button>
           
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
+          <h1 className="text-3xl font-bold text-white mb-2">
             AI-Powered Guided Upload
           </h1>
-          <p className="text-gray-600 text-lg">
+          <p className="text-gray-300 text-lg">
             Get your infrastructure data
           </p>
           
-          <div className="inline-block bg-blue-100 text-blue-800 px-4 py-2 rounded-lg text-sm font-medium mt-4">
+          <div className="inline-block bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium mt-4">
             {selectedProvider.toUpperCase()} Assessment
           </div>
         </div>
@@ -134,20 +134,18 @@ echo "Resource discovery complete! Upload the generated JSON files."`;
         {/* Resource Discovery Script Section */}
         <div className="mb-8">
           <div className="flex items-center mb-6">
-            <div className="bg-blue-100 p-2 rounded-lg mr-3">
-              <span className="text-2xl">📋</span>
-            </div>
-            <h2 className="text-2xl font-bold text-gray-900">Resource Discovery Script</h2>
+            <Copy className="h-6 w-6 text-blue-400 mr-3" />
+            <h2 className="text-2xl font-bold text-white">Resource Discovery Script</h2>
           </div>
 
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
-            <p className="text-blue-800">
+          <div className="bg-blue-900 bg-opacity-30 border border-blue-700 rounded-lg p-4 mb-6">
+            <p className="text-blue-300">
               Run this script in your {selectedProvider.toUpperCase()} environment to discover and export your resources. Make sure you have the appropriate CLI tools installed and configured.
             </p>
           </div>
 
           {/* Script Box */}
-          <div className="bg-white rounded-lg border border-gray-200 overflow-hidden mb-6">
+          <div className="bg-gray-800 rounded-lg border border-gray-700 overflow-hidden mb-6">
             <div className="flex items-center justify-between bg-gray-800 text-white px-4 py-3">
               <span className="text-sm font-medium">discovery-script.sh</span>
               <div className="flex space-x-2">
@@ -183,8 +181,8 @@ echo "Resource discovery complete! Upload the generated JSON files."`;
 
           {/* Next Steps */}
           <div className="mb-8">
-            <h3 className="text-xl font-bold text-gray-900 mb-4">Next Steps:</h3>
-            <ol className="space-y-3 text-gray-700">
+            <h3 className="text-xl font-bold text-white mb-4">Next Steps:</h3>
+            <ol className="space-y-3 text-gray-300">
               <li className="flex items-start">
                 <span className="bg-blue-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-0.5">1</span>
                 Run the provided script(s) in your environment

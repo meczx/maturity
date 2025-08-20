@@ -191,7 +191,20 @@ function LandingPage() {
     } else if (type === 'manual') {
       setShowResourceDiscoveryScript(true);
     } else {
-      // For manual or hybrid, skip to file upload
+      // For hybrid, show IaC tool config
+      setShowIaCToolConfig(true);
+    }
+  };
+
+  const handleHybridIaCToolConfigSelection = (config: { toolType: 'single' | 'multiple'; selectedTool?: string }) => {
+    setIaCConfig(config);
+    setShowIaCToolConfig(false);
+    if (managementType === 'hybrid') {
+      // For hybrid, always show resource discovery script after IaC config
+      setShowResourceDiscoveryScript(true);
+    } else if (config.toolType === 'single' && config.selectedTool) {
+      setShowInfrastructureExport(true);
+    } else {
       setShowFileUpload(true);
     }
   };
@@ -208,22 +221,24 @@ function LandingPage() {
 
   const handleBackFromResourceDiscoveryScript = () => {
     setShowResourceDiscoveryScript(false);
-    setShowResourceManagement(true);
+    if (managementType === 'hybrid') {
+      setShowIaCToolConfig(true);
+    } else {
+      setShowResourceManagement(true);
+    }
   };
 
   const handleIaCToolConfigSelection = (config: { toolType: 'single' | 'multiple'; selectedTool?: string }) => {
-    setIaCConfig(config);
-    setShowIaCToolConfig(false);
-    if (config.toolType === 'single' && config.selectedTool) {
-      setShowInfrastructureExport(true);
-    } else {
-      setShowFileUpload(true);
-    }
+    handleHybridIaCToolConfigSelection(config);
   };
 
   const handleBackFromIaCToolConfig = () => {
     setShowIaCToolConfig(false);
-    setShowResourceManagement(true);
+    if (managementType === 'hybrid') {
+      setShowResourceManagement(true);
+    } else {
+      setShowResourceManagement(true);
+    }
   };
 
   const handleInfrastructureExportContinue = () => {
@@ -243,7 +258,9 @@ function LandingPage() {
 
   const handleBackFromFileUpload = () => {
     setShowFileUpload(false);
-    if (showInfrastructureExport) {
+    if (managementType === 'hybrid') {
+      setShowResourceDiscoveryScript(true);
+    } else if (showInfrastructureExport) {
       setShowInfrastructureExport(true);
     } else {
       setShowIaCToolConfig(true);
