@@ -108,28 +108,6 @@ export default function PremiumCloudProviderPage({ onBack, onContinue, assessmen
         </div>
 
         {/* Navigation */}
-        <div className="flex justify-between items-center">
-          <button
-            onClick={onBack}
-            className="flex items-center text-gray-300 hover:text-white transition-colors"
-          >
-            <ArrowLeft className="h-5 w-5 mr-2" />
-            Back
-          </button>
-          
-          <button
-            onClick={handleContinue}
-            disabled={!selectedProvider}
-            className={`px-8 py-3 rounded-lg font-semibold transition-all duration-200 flex items-center ${
-              selectedProvider
-                ? 'bg-gray-600 hover:bg-gray-500 text-white'
-                : 'bg-gray-700 text-gray-400 cursor-not-allowed'
-            }`}
-          >
-            Continue
-            <ArrowLeft className="h-5 w-5 ml-2 rotate-180" />
-          </button>
-        </div>
       </div>
     </div>
   );

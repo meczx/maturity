@@ -15,6 +15,7 @@ import ConnectedAssessmentPage from './ConnectedAssessmentPage';
 import ResourceDiscoveryScriptPage from './ResourceDiscoveryScriptPage';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import ConnectionGuidePage from './ConnectionGuidePage';
 
 // FAQ Item Component
 function FAQItem({ question, answer }: { question: string; answer: string }) {
@@ -66,6 +67,7 @@ function LandingPage() {
   const [showResourceDiscoveryScript, setShowResourceDiscoveryScript] = useState(false);
   const [showPremiumAccountInfo, setShowPremiumAccountInfo] = useState(false);
   const [showConnectedAssessment, setShowConnectedAssessment] = useState(false);
+  const [showConnectionGuide, setShowConnectionGuide] = useState(false);
   const { logout, sessionId } = useAuth();
   const navigate = useNavigate();
 
@@ -152,13 +154,23 @@ function LandingPage() {
     if (premiumAssessmentType === 'guided') {
       setShowResourceManagement(true);
     } else {
-      setShowConnectedAssessment(true);
+      setShowConnectionGuide(true);
     }
   };
 
   const handleBackFromPremiumAccountInfo = () => {
     setShowPremiumAccountInfo(false);
     setShowPremiumProviderPage(true);
+  };
+
+  const handleConnectionGuideContinue = () => {
+    setShowConnectionGuide(false);
+    setShowConnectedAssessment(true);
+  };
+
+  const handleBackFromConnectionGuide = () => {
+    setShowConnectionGuide(false);
+    setShowPremiumAccountInfo(true);
   };
 
   const handleConnectedAssessmentStart = () => {
@@ -168,7 +180,7 @@ function LandingPage() {
 
   const handleBackFromConnectedAssessment = () => {
     setShowConnectedAssessment(false);
-    setShowPremiumAccountInfo(true);
+    setShowConnectionGuide(true);
   };
 
   const handleResourceManagementSelection = (type: 'automated' | 'manual' | 'hybrid') => {
@@ -268,6 +280,8 @@ function LandingPage() {
     setShowResourceDiscoveryScript(false);
     setShowPremiumAccountInfo(false);
     setShowConnectedAssessment(false);
+    setShowConnectionGuide(false);
+    setShowConnectionGuide(false);
     // Don't automatically show chatbot for free assessment
   };
 
@@ -324,6 +338,17 @@ function LandingPage() {
         onBack={handleBackFromPremiumAccountInfo}
         onContinue={handlePremiumAccountInfoSubmit}
         selectedProvider={selectedProvider}
+      />
+    );
+  }
+
+  if (showConnectionGuide && selectedProvider && accountInfo) {
+    return (
+      <ConnectionGuidePage 
+        onBack={handleBackFromConnectionGuide}
+        onContinue={handleConnectionGuideContinue}
+        selectedProvider={selectedProvider}
+        accountInfo={accountInfo}
       />
     );
   }

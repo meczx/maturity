@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import { ArrowRight, CheckCircle, XCircle, HelpCircle, Loader2 } from 'lucide-react';
+import { ArrowRight, CheckCircle, XCircle, HelpCircle, Loader2, ArrowLeft, Download } from 'lucide-react';
 import Config from '../config/configapi.json';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 interface Question {
   id: string;
@@ -215,6 +217,7 @@ export default function AssessmentQuestions({ onComplete, onClose }: AssessmentQ
   const [currentDomain, setCurrentDomain] = useState<string>("");
   const [showScore, setShowScore] = useState(false);
   const [finalScore, setFinalScore] = useState<number>(0);
+  const [isDownloading, setIsDownloading] = useState(false);
 
   const currentQuestion = questions[currentQuestionIndex];
   const currentDomainInfo = domains.find(d => d.name === currentQuestion?.domain);
@@ -247,6 +250,73 @@ export default function AssessmentQuestions({ onComplete, onClose }: AssessmentQ
       const score = calculateScore(newAnswers);
       setFinalScore(score);
       setShowScore(true);
+    }
+  };
+
+  const handlePrevious = () => {
+    if (currentQuestionIndex > 0) {
+      setCurrentQuestionIndex(currentQuestionIndex - 1);
+    }
+  };
+
+  const handleNext = () => {
+    if (currentQuestionIndex < questions.length - 1) {
+      setCurrentQuestionIndex(currentQuestionIndex + 1);
+    }
+  };
+
+  const downloadPDF = async () => {
+    setIsDownloading(true);
+    try {
+      const pdf = new jsPDF();
+      
+      // Add title
+      pdf.setFontSize(20);
+      pdf.text('Cloud Maturity Assessment Results', 20, 30);
+      
+      // Add score
+      pdf.setFontSize(16);
+      const scoreOutOf20 = (finalScore / 6).toFixed(1);
+      const percentage = (finalScore / 120) * 100;
+      pdf.text(`Overall Score: ${scoreOutOf20}/20 (${percentage.toFixed(0)}%)`, 20, 50);
+      
+      // Add domain breakdown
+      pdf.setFontSize(14);
+      pdf.text('Domain Breakdown:', 20, 70);
+      
+      let yPosition = 90;
+      domains.forEach((domain, index) => {
+        const domainQuestions = questions.filter(q => q.domain === domain.name);
+        let domainScore = 0;
+        domainQuestions.forEach(q => {
+          const answer = answers[q.id];
+          const optionIndex = q.options.indexOf(answer);
+          if (optionIndex === 0) domainScore += 1;
+          else if (optionIndex === 1) domainScore += 2;
+          else if (optionIndex === 2) domainScore += 4;
+          else if (optionIndex === 3) domainScore += 4;
+        });
+        
+        const maxDomainScore = domainQuestions.length * 4;
+        const domainPercentage = (domainScore / maxDomainScore) * 100;
+        
+        pdf.text(`${domain.name}: ${domainPercentage.toFixed(0)}%`, 30, yPosition);
+        yPosition += 20;
+      });
+      
+      // Add recommendations
+      pdf.text('Recommendations:', 20, yPosition + 20);
+      pdf.setFontSize(12);
+      pdf.text('• Review security configurations and implement MFA', 30, yPosition + 40);
+      pdf.text('• Optimize resource utilization and implement cost monitoring', 30, yPosition + 55);
+      pdf.text('• Enhance monitoring and observability practices', 30, yPosition + 70);
+      pdf.text('• Consider upgrading to Premium Assessment for detailed insights', 30, yPosition + 85);
+      
+      pdf.save('cloud-maturity-assessment-results.pdf');
+    } catch (error) {
+      console.error('Error generating PDF:', error);
+    } finally {
+      setIsDownloading(false);
     }
   };
 
@@ -355,9 +425,21 @@ export default function AssessmentQuestions({ onComplete, onClose }: AssessmentQ
           <div className="space-y-4">
             <button
               onClick={handleProceedToAssessment}
-              className="w-full bg-blue-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-blue-700 transition-colors mb-4"
+              className="w-full bg-blue-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
             >
               View Detailed Results
+            </button>
+            <button
+              onClick={downloadPDF}
+              disabled={isDownloading}
+              className="w-full bg-green-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+            >
+              {isDownloading ? (
+                <Loader2 className="animate-spin h-5 w-5 mr-2" />
+              ) : (
+                <Download className="h-5 w-5 mr-2" />
+              )}
+              {isDownloading ? 'Generating PDF...' : 'Download Results as PDF'}
             </button>
           </div>
         </div>
@@ -468,9 +550,30 @@ export default function AssessmentQuestions({ onComplete, onClose }: AssessmentQ
                 </button>
               ))}
             </div>
+
+            {/* Navigation Buttons */}
+            <div className="flex justify-between mt-8 pt-6 border-t border-gray-200">
+              <button
+                onClick={handlePrevious}
+                disabled={currentQuestionIndex === 0}
+                className="flex items-center px-6 py-3 text-gray-600 hover:text-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              >
+                <ArrowLeft className="h-5 w-5 mr-2" />
+                Previous
+              </button>
+              
+              <button
+                onClick={handleNext}
+                disabled={currentQuestionIndex === questions.length - 1}
+                className="flex items-center px-6 py-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              >
+                Next
+                <ArrowRight className="h-5 w-5 ml-2" />
+              </button>
+            </div>
           </div>
         </div>
       </div>
     </div>
   );
-} 
+}
