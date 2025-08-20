@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { 
   MessageCircle, 
@@ -36,7 +36,6 @@ interface ChatbotWidgetProps {
 }
 
 export default function ChatbotWidget({ forceOpen = false, selectedDomain: propSelectedDomain, onClose }: ChatbotWidgetProps) {
-  const location = useLocation();
   const [isOpen, setIsOpen] = useState(forceOpen);
   const [selectedDomain, setSelectedDomain] = useState(propSelectedDomain);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -50,9 +49,6 @@ export default function ChatbotWidget({ forceOpen = false, selectedDomain: propS
   
   const API_ENDPOINT = `${Config.local_env}/cloud_maturity`;
   
-  // Secret client details - replace with your actual credentials
-  const CLIENT_ID = 'your-client-id';
-  const CLIENT_SECRET = 'your-client-secret';
 
   const [uploadedFile, setUploadedFile] = useState<string | null>(null);
 

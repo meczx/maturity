@@ -42,7 +42,6 @@ export default function AssessmentPage() {
   const [answers, setAnswers] = useState<Record<string, any>>({});
   const [showResults, setShowResults] = useState(false);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [questions, setQuestions] = useState<Question[]>([]);
   const [chatbotExpanded, setChatbotExpanded] = useState(false);
 
@@ -83,45 +82,6 @@ export default function AssessmentPage() {
       color: 'bg-orange-500',
     }
   ];
-
-  // Fetch questions from API
-  const fetchQuestions = async (domainId: string) => {
-    setLoading(true);
-    try {
-      // Using dummy API endpoint - replace with your actual endpoint
-      const response = await fetch(`https://jsonplaceholder.typicode.com/posts?userId=${domainId.length}`);
-      const data = await response.json();
-      
-      // Transform dummy data to question format
-      const transformedQuestions: Question[] = data.slice(0, 3).map((item: any, index: number) => ({
-        id: `q${index + 1}`,
-        text: `${item.title}?`,
-        type: index % 2 === 0 ? 'yes-no' : 'multiple-choice',
-        options: index % 2 === 1 ? ['Excellent', 'Good', 'Fair', 'Poor'] : undefined,
-        followUpQuestions: index === 0 ? [{
-          id: `q${index + 1}-follow`,
-          text: 'Please provide more details about your implementation:',
-          type: 'multiple-choice',
-          options: ['Option A', 'Option B', 'Option C', 'Option D']
-        }] : undefined
-      }));
-      
-      setQuestions(transformedQuestions);
-    } catch (error) {
-      console.error('Failed to fetch questions:', error);
-      // Fallback questions in case of API failure
-      setQuestions([
-        {
-          id: 'q1',
-          text: 'How would you rate your current implementation?',
-          type: 'multiple-choice',
-          options: ['Excellent', 'Good', 'Fair', 'Poor']
-        }
-      ]);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const handleDomainSelect = async (domain: AssessmentDomain) => {
     setSelectedDomain(domain);
@@ -360,8 +320,9 @@ export default function AssessmentPage() {
                 {renderQuestion(currentQuestion)}
               </div>
             ) : (
-              <div className="text-center py-12">
-                <p className="text-gray-600">No questions available for this domain.</p>
+              <div className="flex items-center justify-center py-12">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+                <span className="ml-3 text-gray-300">Loading questions...</span>
               </div>
             )}
           </div>

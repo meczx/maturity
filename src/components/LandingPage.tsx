@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { ChevronRight, Shield, Network, DollarSign, BarChart3, Settings, Upload, FileText, Rocket } from 'lucide-react';
-import Assessment from './AssessmentPage';
 import AssessmentQuestions from './AssessmentQuestions';
 import AssessmentScopePage from './AssessmentScopePage';
 import CloudProviderSelectionPage from './CloudProviderSelectionPage';
