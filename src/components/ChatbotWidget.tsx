@@ -222,6 +222,7 @@ export default function ChatbotWidget({ forceOpen = false, selectedDomain: propS
     }
     await sendApiRequest(message.trim() || null, uploadedFile || null);
     setUploadedFile(null);
+  };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && !e.shiftKey) {
