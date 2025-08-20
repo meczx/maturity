@@ -523,36 +523,52 @@ function LandingPage() {
           
           <div className="space-y-4">
             <FAQItem 
-              question="What is a Cloud Maturity Assessment?"
-              answer="A Cloud Maturity Assessment evaluates your organization's cloud infrastructure, security, operations, and governance practices against industry best practices. It provides a comprehensive analysis of your current cloud maturity level and actionable recommendations for improvement."
+              question="Why do I need a cloud assessment?"
+              answer="Cloud environments grow quickly and often inefficiently. Many organizations overspend by 20–40% due to underutilized resources, misconfigurations, and missed discounting opportunities. Additionally: Operations may not scale efficiently or may lack observability. Security risks increase when IAM, storage, or networking aren't tightly managed. Compliance issues may go unnoticed until audits. LeanKloud's 3-level assessment provides a structured way to surface hidden risks and optimization opportunities before they impact your business."
             />
             <FAQItem 
-              question="What's the difference between Quick Insight and AI-Powered Deep Assessment?"
-              answer="Quick Insight is a free, questionnaire-based assessment that provides general recommendations. AI-Powered Deep Assessment analyzes your actual infrastructure files or connects to your cloud environment for detailed, specific recommendations based on your real setup."
+              question="What's the difference between the Free and Premium assessments?"
+              answer="Free (Quick Insight): Self-assessment using static questions, no credentials required, instant results with high-level maturity score. Great for leadership teams or quick benchmarking. ⚠️ Limited — no resource-level validation. Premium (AI-Powered Deep Assessment): Two options: Guided Upload (upload JSON files) or Connected Assessment (read-only IAM access). AI analyzes actual infrastructure, generates granular resource-level insights, provides custom recommendations tied to Well-Architected Framework. ⚠️ Requires effort but best for engineering teams, compliance checks, cost optimization."
             />
             <FAQItem 
-              question="Do I need to provide cloud credentials or access?"
-              answer="For the free Quick Insight assessment, no credentials are needed. For AI-Powered Guided Upload, you only need to upload configuration files. For Connected Assessment, we require read-only access to analyze your live environment."
+              question="What data is collected, and do you access my customer data?"
+              answer="Survey: No environment data is collected. State file: Only metadata/configuration, not customer or workload data. Remote scan: Read-only config, logs, and performance metrics. No application or customer data is accessed."
             />
             <FAQItem 
-              question="What cloud providers do you support?"
-              answer="We support all major cloud providers including Amazon Web Services (AWS), Microsoft Azure, and Google Cloud Platform (GCP). Our assessments are tailored to each provider's specific services and best practices."
+              question="How do you guarantee the security of the assessment?"
+              answer="All data and files are encrypted at rest and in transit. Access is via read-only roles with least-privilege. Files are securely deleted after use. We sign NDA and data processing agreements. On request, the entire assessment can be run inside your environment (air-gapped mode). We never store account credentials or keys - only read-only IAM roles or uploaded JSON files."
             />
             <FAQItem 
-              question="How long does each assessment take?"
-              answer="Quick Insight takes 5-10 minutes. Guided Upload takes 15-30 minutes depending on file preparation. Connected Assessment takes 20-45 minutes including setup and analysis time."
+              question="Will the remote scan affect my workloads?"
+              answer="No. The scan is completely read-only and does not affect workloads, performance, or latency."
             />
             <FAQItem 
-              question="What files do I need for the Guided Upload assessment?"
-              answer="You can upload CloudFormation templates, Terraform state files, Azure Resource Manager templates, or infrastructure configuration files in JSON/YAML format. We also provide scripts to help export your current infrastructure state."
+              question="How do you handle compliance frameworks?"
+              answer="We check your environment against: CIS Benchmarks (AWS, Azure, GCP), NIST 800-53 (on request), Well-Architected Frameworks. Optional: HIPAA, SOC2, GDPR alignment checks. Recommendations can be mapped to compliance requirements to make audits easier."
             />
             <FAQItem 
-              question="Is my data secure and private?"
-              answer="Yes, absolutely. All data is encrypted in transit and at rest. We follow SOC 2 compliance standards, never store sensitive credentials, and you can delete your data at any time. We only analyze what's necessary for the assessment."
+              question="Who performs the assessment?"
+              answer="A combination of LeanKloud's automated analysis engines and cloud FinOps/SecOps experts. Automation ensures full coverage, and our experts prioritize recommendations by business impact."
             />
             <FAQItem 
-              question="What kind of recommendations will I receive?"
-              answer="You'll receive actionable recommendations across security, cost optimization, performance, reliability, and operational excellence. This includes specific configuration changes, architectural improvements, and best practice implementations."
+              question="What happens after the assessment?"
+              answer="You can: Act on the recommendations yourself using our report, work with LeanKloud experts to implement fixes alongside your team, or subscribe to LeanKloud's managed optimization services where we continuously monitor your environment and remediate cost, operations, and security issues proactively."
+            />
+            <FAQItem 
+              question="How often should I run such an assessment?"
+              answer="Instead of worrying about periodic assessments, you can subscribe to LeanKloud's continuous optimization offerings. Our team ensures your environment is always monitored, and issues are detected and fixed on an ongoing basis. This gives you continuous cost control, operational reliability, and a strong security posture without manual check-ups."
+            />
+            <FAQItem 
+              question="What if my environment is small — is it still worth it?"
+              answer="Yes. Even small environments often overspend by 25–30%. A $10K/month cloud bill can usually be trimmed by $2–3K. For startups and smaller teams, optimization ensures precious budget is used for growth."
+            />
+            <FAQItem 
+              question="How much will this cost me?"
+              answer="Level 1 (Survey): Free. Level 2 (State file review): Flat fee (varies by environment size). Level 3 (Remote scan): Custom pricing, typically offset within 1–2 months of savings. Continuous subscription: Flexible pricing tiers based on cloud spend and coverage needs."
+            />
+            <FAQItem 
+              question="Do you offer a proof-of-value?"
+              answer="Yes. Most customers start with Level 1 (free) or Level 2 (low cost). This demonstrates immediate savings potential. From there, many choose to move into Level 3 + continuous subscription, where LeanKloud actively manages and optimizes their environment."
             />
           </div>
         </div>
